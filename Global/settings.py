@@ -126,8 +126,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com' 
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True 
-EMAIL_HOST_USER = 'jairletelier23@gmail.com' 
-EMAIL_HOST_PASSWORD = 'ufbq plwa nzvi drsm' 
+# 💥 CORRECCIÓN SMTP: Usar os.environ para leer del entorno de Render
+EMAIL_HOST_USER = os.environ.get('EMAIL_USER', default='jairletelier23@gmail.com')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD', default='fzfw evvw upfw yjif') # ⬅️ DEBE SER CLAVE DE APLICACIÓN
 DEFAULT_FROM_EMAIL = 'Casa de Reposo Mi Hogar <tu_correo_de_envio@ejemplo.com>'
 
 # ----------------------------------------------------------------------
