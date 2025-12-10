@@ -153,6 +153,7 @@ if not DEBUG:
     
     # 3. La URL de MEDIA se configura a través de Django/Dropbox
     # (Django genera la URL pública de Dropbox al servir el archivo)
+    DROPBOX_CUSTOM_MEDIA_URL = os.environ.get('DROPBOX_CUSTOM_MEDIA_URL', '')
     
 # ----------------------------------------------------
 # 🎨 CONFIGURACIÓN DE JAZZMIN (TEMA DE ADMIN) 🎨
