@@ -6,7 +6,12 @@ from django.db import models
 
 # Modelo para las imágenes del Carrusel (Hero)
 class CarouselImage(models.Model):
-    image = models.ImageField(upload_to='carousel/')
+    # 💥 CAMBIO CRÍTICO: Reemplazar ImageField por CharField para almacenar la URL
+    image_url = models.CharField(
+        max_length=500, 
+        verbose_name="URL de Imagen Pública", 
+        help_text="Pega aquí el enlace de Imgur/Google Fotos. Máx 500 caracteres."
+    ) 
     caption = models.CharField(max_length=255, blank=True, verbose_name="Título/Descripción")
     order = models.IntegerField(default=0, verbose_name="Orden")
     is_active = models.BooleanField(default=True, verbose_name="Activo")
@@ -22,7 +27,12 @@ class CarouselImage(models.Model):
 # 💥 MODELO 1: Tipos de Habitación
 class RoomType(models.Model):
     name = models.CharField(max_length=100, verbose_name="Nombre de la Habitación")
-    main_image = models.ImageField(upload_to='gallery/rooms/', verbose_name="Foto Principal")
+    # 💥 CAMBIO CRÍTICO: Reemplazar ImageField por CharField para almacenar la URL
+    main_image_url = models.CharField(
+        max_length=500, 
+        verbose_name="URL de Foto Principal",
+        help_text="Pega aquí el enlace de la imagen principal. Máx 500 caracteres."
+    )
     description = models.TextField(verbose_name="Descripción", help_text="Descripción detallada de la habitación.")
     details = models.TextField(verbose_name="Detalles/Incluye", help_text="Lista de detalles o servicios incluidos. Usa saltos de línea para listar.")
     price = models.DecimalField(max_digits=10, decimal_places=0, null=True, blank=True, verbose_name="Precio base mensual (opcional)")
@@ -47,7 +57,12 @@ class GalleryPhoto(models.Model):
     ]
     
     title = models.CharField(max_length=150, verbose_name="Título de la Foto")
-    image = models.ImageField(upload_to='gallery/general/', verbose_name="Archivo de Imagen")
+    # 💥 CAMBIO CRÍTICO: Reemplazar ImageField por CharField para almacenar la URL
+    image_url = models.CharField(
+        max_length=500, 
+        verbose_name="URL de Archivo de Imagen",
+        help_text="Pega aquí el enlace de la imagen de galería. Máx 500 caracteres."
+    )
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, default='COMUN', verbose_name="Categoría")
     is_active = models.BooleanField(default=True, verbose_name="Mostrar en Galería")
     order = models.IntegerField(default=0, verbose_name="Orden de visualización")

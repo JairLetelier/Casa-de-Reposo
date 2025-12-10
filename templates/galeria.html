@@ -249,7 +249,7 @@
             {% for room in room_types %}
             <div class="col-lg-4 col-md-6">
                 <div class="room-card text-start">
-                    <img src="{{ room.main_image.url }}" class="img-fluid" alt="Habitación: {{ room.name }}" />
+                    <img src="{{ room.main_image_url }}" class="img-fluid" alt="Habitación: {{ room.name }}" />
                     <div class="p-4">
                         <h4 class="fw-bold">{{ room.name }}</h4>
                         <p class="text-secondary small">{{ room.description|truncatechars:100 }}</p>
@@ -291,7 +291,7 @@
         <div class="row g-4 mt-5">
             {% for photo in gallery_photos %}
             <div class="col-lg-4 col-md-6">
-                <img src="{{ photo.image.url }}" 
+                <img src="{{ photo.image_url }}" 
                     class="galeria-img rounded shadow-sm" 
                     alt="{{ photo.title }} ({{ photo.category }})" 
                     data-bs-toggle="modal" 
@@ -317,7 +317,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <img src="{{ room.main_image.url }}" class="img-fluid rounded mb-3" alt="{{ room.name }}" />
+                <img src="{{ room.main_image_url }}" class="img-fluid rounded mb-3" alt="{{ room.name }}" />
                 <p class="text-secondary">{{ room.description }}</p>
                 <h6 class="fw-bold mt-4" style="color: var(--primary-blue);">Incluye y Detalles:</h6>
                 <div class="details-list">
@@ -341,7 +341,7 @@
     <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body p-0">
-                <img src="{{ photo.image.url }}" class="img-fluid rounded" alt="{{ photo.title }}" />
+                <img src="{{ photo.image_url }}" class="img-fluid rounded" alt="{{ photo.title }}" />
                 <div class="p-3 text-center">
                     <h5 class="mb-0">{{ photo.title }}</h5>
                     <small class="text-muted">Categoría: {{ photo.get_category_display }}</small>

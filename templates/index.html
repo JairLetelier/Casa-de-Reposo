@@ -240,8 +240,7 @@
         <div class="carousel-inner">
             {% for item in carousel_images %}
             <div class="carousel-item {% if forloop.first %}active{% endif %}" 
-                style="background-image: url('{{ item.image.url }}');">
-                <div class="carousel-caption"> 
+                style="background-image: url('{{ item.image_url }}');"> <div class="carousel-caption"> 
                     <p class="text-uppercase fw-bold mb-2" style="color: var(--primary-light);">Cuidado Integral, Humano y Respetuoso</p>
                     <h1 class="fw-bold">{{ item.caption|default:"Un Hogar donde<br>la Dignidad es Prioridad"|safe }}</h1>
                     <a href="{% url 'contacto' %}" class="btn btn-primary mt-3 me-2">Consulta Hoy</a>

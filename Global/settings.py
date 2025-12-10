@@ -5,8 +5,6 @@ Django settings for Global project.
 from pathlib import Path
 import os
 import dj_database_url
-import json      # NECESARIO para json.loads
-import base64    # ⬅️ NECESARIO para la codificación Base64
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,8 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'CasaReposo',
-    # ☁️ AGREGADO PARA ALMACENAMIENTO EXTERNO (GCS)
-    'storages',
+    # ❌ SE ELIMINA 'storages' para evitar el conflicto con GCS/Dropbox.
 ]
 
 MIDDLEWARE = [
@@ -117,6 +114,8 @@ STATICFILES_DIRS = [STATIC_DIR]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# 🌐 CONFIGURACIÓN MEDIA LOCAL (SOLO PARA DESARROLLO)
+# EN PRODUCCIÓN, LAS IMÁGENES SE LEEN DE LA URL EXTERNA EN LA BASE DE DATOS.
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -138,38 +137,6 @@ LOGOUT_REDIRECT_URL = '/login/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build')
 
-# ----------------------------------------------------------------------
-# ☁️ CONFIGURACIÓN DE ALMACENAMIENTO MEDIA (GOOGLE CLOUD STORAGE - GCS) ☁️
-# ----------------------------------------------------------------------
-# SOLUCIÓN DE BASE64 PARA CORRECCIÓN DE ERRORES DE LECTURA DE CLAVE JSON EN RENDER
-if not DEBUG:
-    # 1. Almacenamiento por defecto: usa Google Cloud Storage
-    DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
-    
-    # 2. El nombre de tu Bucket (Contenedor) de GCS
-    GS_BUCKET_NAME = os.environ.get('GS_BUCKET_NAME')
-    
-    # 3. 💥 Decodificación de Base64
-    # Leemos la cadena de texto codificada desde la variable de entorno
-    credentials_b64 = os.environ.get('GS_CREDENTIALS_BASE64')
-    
-    GS_CREDENTIALS = None
-    if credentials_b64:
-        try:
-            # 1. Decodificar de Base64 a bytes
-            json_bytes = base64.b64decode(credentials_b64)
-            # 2. Decodificar de bytes a string (JSON)
-            credentials_string = json_bytes.decode('utf-8')
-            # 3. Cargar el JSON en un objeto de Python
-            GS_CREDENTIALS = json.loads(credentials_string)
-        except Exception as e:
-            # Si esto falla, el log mostrará el error de decodificación
-            print(f"ERROR FATAL al decodificar credenciales B64: {e}")
-            GS_CREDENTIALS = None
-
-    # 4. Configuración de la URL para mostrar los archivos
-    MEDIA_URL = f'https://storage.googleapis.com/{GS_BUCKET_NAME}/'
-    
 # ----------------------------------------------------
 # 🎨 CONFIGURACIÓN DE JAZZMIN (TEMA DE ADMIN) 🎨
 # ----------------------------------------------------

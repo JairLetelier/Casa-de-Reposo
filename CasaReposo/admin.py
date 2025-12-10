@@ -2,25 +2,28 @@ from django.contrib import admin
 # Importamos todos los modelos, incluyendo los nuevos para Tarifas
 from .models import (
     CarouselImage, RoomType, GalleryPhoto, 
-    RateCategory, IncludedService, OptionalService 
+    RateCategory, IncludedService, OptionalService,
+    ContactMessage # Asegúrate de que ContactMessage esté importado si lo usas.
 )
 
 # ----------------------------------------------------
-# 1. Gestión del Carrusel
+# 1. Gestión del Carrusel (CarouselImage)
 # ----------------------------------------------------
 @admin.register(CarouselImage)
 class CarouselImageAdmin(admin.ModelAdmin):
-    list_display = ('caption', 'image', 'order', 'is_active') 
+    # 💥 CORRECCIÓN: Cambiar 'image' por 'image_url'
+    list_display = ('caption', 'image_url', 'order', 'is_active') 
     list_editable = ('order', 'is_active') 
     list_filter = ('is_active',)
     search_fields = ('caption',)
     
     fieldsets = (
         (None, {
-            'fields': ('image', 'caption', 'order', 'is_active')
+            # 💥 CORRECCIÓN: Cambiar 'image' por 'image_url'
+            'fields': ('image_url', 'caption', 'order', 'is_active')
         }),
     )
-
+    
 # ----------------------------------------------------
 # 2. Tipos de Habitación (RoomType)
 # ----------------------------------------------------
@@ -33,7 +36,8 @@ class RoomTypeAdmin(admin.ModelAdmin):
     
     fieldsets = (
         ("Información Básica y Precios", {
-            'fields': ('name', 'main_image', 'price', 'is_active', 'order'),
+            # 💥 CORRECCIÓN: Cambiar 'main_image' por 'main_image_url'
+            'fields': ('name', 'main_image_url', 'price', 'is_active', 'order'),
         }),
         ("Contenido y Detalles", {
             'fields': ('description', 'details'),
@@ -53,12 +57,13 @@ class GalleryPhotoAdmin(admin.ModelAdmin):
     
     fieldsets = (
         (None, {
-            'fields': ('title', 'image', 'category', 'is_active', 'order')
+            # 💥 CORRECCIÓN: Cambiar 'image' por 'image_url'
+            'fields': ('title', 'image_url', 'category', 'is_active', 'order')
         }),
     )
 
 # ====================================================
-# 💥 NUEVOS REGISTROS PARA TARIFAS
+# 💥 NUEVOS REGISTROS PARA TARIFAS Y CONTACTO
 # ====================================================
 
 # ----------------------------------------------------
@@ -108,3 +113,20 @@ class OptionalServiceAdmin(admin.ModelAdmin):
             'fields': ('name', 'cost', 'is_active', 'order')
         }),
     )
+    
+# ----------------------------------------------------
+# 💥 REGISTRO 7: Mensajes de Contacto (ContactMessage)
+# ----------------------------------------------------
+# Debes añadir esta sección si usas el modelo ContactMessage
+# @admin.register(ContactMessage)
+# class ContactMessageAdmin(admin.ModelAdmin):
+#     list_display = ('nombre', 'email', 'fecha_envio', 'respondido')
+#     list_filter = ('respondido', 'fecha_envio')
+#     search_fields = ('nombre', 'email', 'mensaje')
+#     readonly_fields = ('nombre', 'email', 'telefono', 'mensaje', 'fecha_envio')
+#     actions = ['mark_as_responded']
+    
+#     def mark_as_responded(self, request, queryset):
+#         queryset.update(respondido=True)
+#         self.message_user(request, "Los mensajes seleccionados han sido marcados como respondidos.")
+#     mark_as_responded.short_description = "Marcar como respondido"
