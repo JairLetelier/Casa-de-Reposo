@@ -5,7 +5,8 @@ Django settings for Global project.
 from pathlib import Path
 import os
 import dj_database_url
-import json # ⬅️ IMPORTACIÓN NECESARIA PARA DECODIFICAR JSON
+import json      # NECESARIO para json.loads
+import base64    # ⬅️ NECESARIO para la codificación Base64
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -140,7 +141,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build')
 # ----------------------------------------------------------------------
 # ☁️ CONFIGURACIÓN DE ALMACENAMIENTO MEDIA (GOOGLE CLOUD STORAGE - GCS) ☁️
 # ----------------------------------------------------------------------
-# Se usa si DEBUG=False (en Render). Requiere la tarjeta de verificación de GCP.
+# SOLUCIÓN DE BASE64 PARA CORRECCIÓN DE ERRORES DE LECTURA DE CLAVE JSON EN RENDER
 if not DEBUG:
     # 1. Almacenamiento por defecto: usa Google Cloud Storage
     DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
@@ -148,21 +149,23 @@ if not DEBUG:
     # 2. El nombre de tu Bucket (Contenedor) de GCS
     GS_BUCKET_NAME = os.environ.get('GS_BUCKET_NAME')
     
-    # 3. 💥 SOLUCIÓN CRÍTICA: Decodificación explícita de la clave JSON
-    # Leemos la cadena de texto de la variable de entorno
-    credentials_string = os.environ.get('GS_CREDENTIALS_JSON')
+    # 3. 💥 Decodificación de Base64
+    # Leemos la cadena de texto codificada desde la variable de entorno
+    credentials_b64 = os.environ.get('GS_CREDENTIALS_BASE64')
     
-    # Intentamos convertir la cadena de texto en un objeto JSON (diccionario)
-    if credentials_string:
+    GS_CREDENTIALS = None
+    if credentials_b64:
         try:
+            # 1. Decodificar de Base64 a bytes
+            json_bytes = base64.b64decode(credentials_b64)
+            # 2. Decodificar de bytes a string (JSON)
+            credentials_string = json_bytes.decode('utf-8')
+            # 3. Cargar el JSON en un objeto de Python
             GS_CREDENTIALS = json.loads(credentials_string)
-        except json.JSONDecodeError as e:
-            # En caso de error de formato JSON, se desactiva la credencial
-            print("ERROR FATAL de JSON en GS_CREDENTIALS_JSON. Revise los saltos de línea.")
+        except Exception as e:
+            # Si esto falla, el log mostrará el error de decodificación
+            print(f"ERROR FATAL al decodificar credenciales B64: {e}")
             GS_CREDENTIALS = None
-    else:
-        GS_CREDENTIALS = None
-
 
     # 4. Configuración de la URL para mostrar los archivos
     MEDIA_URL = f'https://storage.googleapis.com/{GS_BUCKET_NAME}/'
