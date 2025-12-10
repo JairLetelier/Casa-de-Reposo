@@ -1,0 +1,278 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Contacto - Casa de Reposo “Mi Hogar”</title>
+    <meta name="description" content="Contáctanos para obtener información sobre Casa de Reposo “Mi Hogar” en Maipú. Llama al +56 9 9228 0344 o visítanos en Centenario 469. ¡Te esperamos!"/>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    
+    <style>
+        /* Variables unificadas */
+        :root {
+            --primary-blue: #1C5485; /* Azul principal más profundo */
+            --primary-light: #2A6F97; /* Azul secundario para efectos */
+            --secondary-text: #495057; 
+            --light-bg: #f8f9fa; /* Fondo más claro */
+            --off-white: #ffffff;
+            --text-dark: #212529; 
+            --radius: 12px;
+            --shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 8px 25px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 15px 40px rgba(0, 0, 0, 0.12);
+            --success-color: #28a745; /* Verde WhatsApp */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding-top: 75px; 
+        }
+
+        h1, h2, h3, h4 { font-weight: 700; color: var(--primary-blue); }
+        h1, h2.section-title { color: var(--text-dark); }
+        a { text-decoration: none; }
+
+        /* Navbar */
+        .navbar { background-color: var(--off-white); box-shadow: var(--shadow-sm); padding: 0.8rem 0; }
+        .navbar-brand { font-weight: 800 !important; color: var(--primary-blue) !important; font-size: 1.7rem; }
+        .nav-link { color: var(--secondary-text) !important; font-weight: 600; transition: all 0.3s ease; border-bottom: 2px solid transparent; }
+        .nav-link:hover, .nav-link.active { color: var(--primary-blue) !important; border-bottom-color: var(--primary-light); }
+        
+        /* Botones */
+        .btn-primary { background-color: var(--primary-blue); border-color: var(--primary-blue); border-radius: 6px; font-weight: 600; transition: all 0.3s ease; box-shadow: var(--shadow-sm); padding: 0.75rem 2rem; text-transform: uppercase; letter-spacing: 0.5px;}
+        .btn-primary:hover { background-color: #1a4970; border-color: #1a4970; transform: translateY(-1px); box-shadow: var(--shadow-md); }
+
+        .btn-outline-primary {
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s ease; 
+        }
+        .btn-outline-primary:hover {
+            background-color: var(--primary-blue);
+            color: var(--off-white);
+            transform: translateY(-1px);
+        }
+
+        .btn-success {
+            background-color: var(--success-color);
+            border-color: var(--success-color);
+            color: var(--off-white);
+            transition: all 0.3s ease; 
+            border-radius: 6px;
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3); 
+        }
+        .btn-success:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(40, 167, 69, 0.5); 
+        }
+
+        /* Estilos de Sección */
+        section { padding: 5rem 0; }
+        .section-title { 
+            font-size: 2.6rem; 
+            position: relative; 
+            display: inline-block; 
+            margin-bottom: 3.5rem; 
+        }
+        .section-title::after { 
+            content: ''; 
+            display: block; 
+            width: 60px; 
+            height: 5px; 
+            background: var(--primary-light); 
+            margin: 15px auto 0; 
+            border-radius: 3px; 
+        }
+
+        /* Estilos específicos para Contacto (Info Cards) */
+        .info-card {
+            background-color: var(--off-white);
+            box-shadow: var(--shadow-md);
+            border-radius: var(--radius);
+            padding: 3rem 1.5rem;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border-bottom: 5px solid transparent;
+        }
+        .info-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-bottom-color: var(--primary-light);
+        }
+        .info-card i {
+            font-size: 3rem;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+            transition: color 0.3s ease;
+        }
+        .info-card:hover i {
+            color: var(--primary-light);
+        }
+
+        .map-container {
+            position: relative;
+            padding-bottom: 56.25%; 
+            height: 0;
+            overflow: hidden;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+        }
+        .map-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none; 
+            border-radius: var(--radius);
+        }
+
+        /* Footer (Unificado) */
+        footer { 
+            background-color: var(--text-dark); 
+            color: #c0c0c0; 
+            padding: 4rem 0 2rem 0; 
+            font-size: 0.9rem; 
+        }
+        footer a { color: var(--off-white); }
+        .social-icons a i { color: #c0c0c0; margin: 0 10px; }
+        .social-icons a:hover i { color: var(--primary-light); transform: scale(1.1); }
+        
+        @media (max-width: 768px) {
+            .section-title { font-size: 2rem; }
+            .info-card { padding: 2rem 1rem; }
+            .btn-success { padding: 1rem 1.5rem !important; font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'index' %}">
+            <i class="fa-solid fa-house-chimney-medical me-2" style="color: var(--primary-blue);"></i>
+            Mi Hogar
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'nosotros' %}">Nosotros</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'servicios' %}">Servicios</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'galeria' %}">Galería</a></li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'contacto' %}">Contacto</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'tarifas' %}">Tarifas</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<main class="container mt-5 mb-5">
+    <section class="py-5 text-center">
+        <h1 class="section-title">Conversemos con Confianza</h1>
+        <p class="lead text-secondary mt-3 mx-auto" style="max-width: 800px;">
+            Estamos comprometidos con la transparencia y responsabilidad en la comunicación. Toda la información para contactarnos y visitarnos en Maipú, Santiago.
+        </p>
+
+        <div class="row g-4 justify-content-center mt-5">
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="info-card h-100">
+                    <i class="fa-solid fa-map-marker-alt"></i>
+                    <h4 class="fw-bold">Nuestra Ubicación</h4>
+                    <p class="text-secondary fw-semibold">Centenario 469, Zona Centenario<br/>Maipú – Santiago</p>
+                    <a href="https://www.google.com/maps/search/Centenario+469,+Maipú" target="_blank" class="btn btn-outline-primary mt-3">Cómo llegar</a>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="info-card h-100">
+                    <i class="fa-solid fa-phone"></i>
+                    <h4 class="fw-bold">Llámanos</h4>
+                    <p class="text-secondary fw-semibold">+56 9 9228 0344</p>
+                    <a href="tel:+56992280344" class="btn btn-primary mt-3">Llamar Ahora</a>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="info-card h-100">
+                    <i class="fa-solid fa-envelope"></i>
+                    <h4 class="fw-bold">Correo Electrónico</h4>
+                    <p class="text-secondary fw-semibold">contacto@casadereposomihogar.cl</p>
+                    <a href="mailto:contacto@casadereposomihogar.cl" class="btn btn-outline-primary mt-3">Escribir Correo</a>
+                </div>
+            </div>
+
+            <div class="col-12 mt-5">
+                <a href="https://wa.me/56992280344" target="_blank" class="btn btn-success fw-bold px-5 py-3 shadow">
+                    <i class="fa-brands fa-whatsapp fa-xl me-2"></i> Contáctanos por WhatsApp (+56 9 9228 0344)
+                </a>
+                <p class="text-muted mt-3 fw-semibold">Horario de Visitas: Lunes a Domingo, 9:00 – 20:00 hrs. (Confirmar previamente)</p>
+            </div>
+        </div>
+    </section>
+
+    <hr class="my-5 border-secondary opacity-25" />
+    
+    <section class="py-5">
+        <h2 class="section-title text-center">📍 Encuéntranos Fácilmente</h2>
+        <div class="map-container mt-5">
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3328.718362627409!2d-70.7712399847144!3d-33.45667368078697!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662c111c1d850a5%3A0x6b4a3a3d24075193!2sCentenario%20469%2C%20Maip%C3%BA%2C%20Regi%C3%B3n%20Metropolitana!5e0!3m2!1ses-419!2scl!4v1678822000000!5m2!1ses-419!2scl" 
+                allowfullscreen 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade"
+                title="Ubicación de Casa de Reposo Mi Hogar en Centenario 469, Maipú">
+            </iframe>
+        </div>
+        <div class="text-center mt-5">
+            <a href="https://www.google.com/maps/search/Centenario+469,+Maipú" target="_blank" class="btn btn-outline-primary btn-lg shadow-sm">Abrir Mapa Completo en Google Maps <i class="fa-solid fa-location-dot ms-2"></i></a>
+        </div>
+    </section>
+
+    <hr class="my-5 border-secondary opacity-25" />
+
+    <section id="formulario-rapido" class="py-5 text-center">
+        <h2 class="section-title">¿Prefieres un Formulario?</h2>
+        <p class="lead text-secondary mb-5 mx-auto" style="max-width: 700px;">
+            Si prefieres un registro más detallado, usa nuestro formulario para dejar tu consulta sobre el cuidado integral. Te responderemos a la brevedad.
+        </p>
+        
+        <a href="{% url 'formulario_contacto' %}" class="btn btn-primary btn-lg d-block mx-auto fw-bold" style="max-width: 300px;">Ir al Formulario Completo</a>
+    </section>
+
+</main>
+
+<footer>
+    <div class="container text-center py-4">
+        <p class="mb-1">© 2025 Casa de Reposo “Mi Hogar” - Todos los derechos reservados</p>
+        <div class="social-icons mt-3">
+            <a href="https://wa.me/56992280344" target="_blank" title="WhatsApp"><i class="fa-brands fa-whatsapp fa-lg"></i></a>
+            <a href="https://www.facebook.com/share/1DBBHfxXDe/?mibextid=wwXIfr"><i class="fa-brands fa-facebook-f fa-lg"></i></a>
+            <a href="#"><i class="fa-brands fa-instagram fa-lg"></i></a>
+        </div>
+        <div class="mt-3 text-white-50">
+            <p class="mb-0">
+                <i class="fa-solid fa-map-marker-alt me-2"></i> Centenario 469, Maipú | 
+                <a href="tel:+56992280344" class="text-white-50">+56 9 9228 0344</a> | 
+                <a href="mailto:contacto@casadereposomihogar.cl" class="text-white-50">contacto@casadereposomihogar.cl</a>
+            </p>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

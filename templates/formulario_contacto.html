@@ -1,0 +1,319 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Formulario de Contacto - Casa de Reposo “Mi Hogar”</title>
+    <meta name="description" content="Contáctanos para solicitar una evaluación o cotización personalizada de cuidado para el adulto mayor en Casa de Reposo “Mi Hogar” en Maipú, Santiago.">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Variables unificadas del proyecto */
+        :root {
+            --primary-blue: #1C5485; /* Azul principal más profundo */
+            --primary-light: #2A6F97; /* Azul secundario para efectos/énfasis */
+            --secondary-text: #495057; 
+            --light-bg: #f8f9fa; /* Fondo más claro */
+            --off-white: #ffffff;
+            --text-dark: #212529; 
+            --radius: 12px;
+            --shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 8px 25px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 15px 40px rgba(0, 0, 0, 0.12);
+            --info-color: #17a2b8; /* Color de información (alerts) */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg); /* Unificado */
+            color: var(--text-dark);
+            line-height: 1.7;
+            padding-top: 75px; 
+        }
+
+        h1 { color: var(--text-dark); }
+        h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            color: var(--primary-blue); /* Unificado */
+        }
+
+        /* Navbar (Unificado) */
+        .navbar { background-color: var(--off-white); box-shadow: var(--shadow-sm); padding: 0.8rem 0; }
+        .navbar-brand { font-weight: 800 !important; color: var(--primary-blue) !important; font-size: 1.7rem; }
+        .nav-link { color: var(--secondary-text) !important; font-weight: 600; transition: all 0.3s ease; border-bottom: 2px solid transparent; }
+        .nav-link:hover, .nav-link.active { color: var(--primary-light) !important; border-bottom-color: var(--primary-light); }
+
+
+        /* Botones (Unificado) */
+        .btn-primary {
+            background-color: var(--primary-blue); /* Unificado */
+            border-color: var(--primary-blue); /* Unificado */
+            padding: 0.85rem 2.2rem;
+            border-radius: 6px; 
+            font-weight: 600;
+            transition: all 0.3s ease; 
+            box-shadow: var(--shadow-sm); /* Unificado */
+        }
+        .btn-primary:hover {
+            background-color: #1a4970; /* Sombra de primary-blue */
+            border-color: #1a4970;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md); /* Unificado */
+        }
+
+        /* Título de Sección (Unificado) */
+        section { padding: 5rem 0; }
+        .section-title { 
+            font-size: 2.6rem;
+            font-weight: 700;
+            margin-bottom: 3.5rem;
+            position: relative;
+            display: inline-block;
+            color: var(--text-dark);
+        }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background-color: var(--primary-light); /* Unificado */
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+
+        /* Alerta de información */
+        .alert-info {
+            color: #055160;
+            background-color: #cff4fc;
+            border-color: #b6effb;
+        }
+        
+        /* Estilos para errores de Django */
+        ul.errorlist {
+            list-style: none;
+            padding-left: 0;
+            color: #dc3545; /* Rojo de error de Bootstrap */
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Barra de Contacto Flotante (Unificado) */
+        .contact-info {
+            background-color: var(--off-white) !important;
+            border-top: 2px solid #e9ecef !important;
+            border-bottom: 2px solid #e9ecef !important;
+            box-shadow: var(--shadow-sm); /* Unificado */
+            padding: 1.5rem 0;
+        }
+        .contact-info div { font-size: 1.05rem; color: var(--secondary-text); } /* Unificado */
+        .contact-info i { 
+            color: var(--primary-blue); /* Unificado */
+            margin-right: 8px; 
+            transition: all 0.3s ease; 
+        }
+        .contact-info div:hover i { 
+            transform: scale(1.1);
+            color: var(--primary-light); /* Unificado */
+        }
+        .contact-info a { 
+            color: var(--secondary-text); /* Unificado */
+            text-decoration: none; 
+            transition: color 0.3s ease; 
+        }
+        .contact-info a:hover { color: var(--primary-light); } /* Unificado */
+
+        /* Footer (Unificado) */
+        footer {
+            background-color: var(--text-dark);
+            color: #c0c0c0;
+            padding: 4rem 0 2rem 0;
+            font-size: 0.9rem;
+        }
+        footer a { color: var(--off-white); text-decoration: none; transition: color 0.3s ease; } 
+        footer a:hover { color: var(--primary-light); }
+        .social-icons a { margin: 0 12px; font-size: 1.4rem; }
+        .social-icons a i { 
+            transition: all 0.3s ease;
+            color: #c0c0c0;
+        }
+        .social-icons a:hover i { 
+            transform: scale(1.2) translateY(-2px);
+            color: var(--primary-light);
+        }
+        
+        /* Ajuste de formulario en móvil */
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 2rem;
+            }
+            .contact-info .d-none.d-sm-block,
+            .contact-info .d-none.d-md-block {
+                display: none !important; 
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'index' %}">
+            <i class="fa-solid fa-house-chimney-medical me-2" style="color: var(--primary-blue);"></i>
+            Mi Hogar
+        </a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'nosotros' %}">Nosotros</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'servicios' %}">Servicios</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'galeria' %}">Galería</a></li>
+                <li class="nav-item">
+                    <a class="nav-link active" 
+                        aria-current="page" 
+                        href="{% url 'contacto' %}">Contacto</a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'tarifas' %}">Tarifas</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<main class="container mt-5 mb-5">
+    <section class="py-5">
+        <div class="text-center">
+            <h1 class="section-title">Solicita tu Evaluación Personalizada</h1>
+            <p class="lead text-secondary mt-3 mx-auto" style="max-width: 800px;">
+                Te invitamos a enviarnos un mensaje. Queremos conocer la situación de tu familiar para ofrecer el cuidado humano y cálido que promueve la dignidad.
+            </p>
+        </div>
+
+        <form method="post" action="{% url 'formulario_contacto' %}" class="row g-4 text-start mx-auto p-5 bg-white rounded-3 shadow-lg my-5" style="max-width: 700px;">
+            {% csrf_token %} 
+            
+            <div class="col-12">
+                <h4 class="fw-bold mb-4" style="color: var(--primary-blue);">Formulario de Contacto</h4> 
+                <div class="alert alert-info" role="alert">
+                    <i class="fa-solid fa-circle-info me-2"></i> Todos los campos son requeridos. Nuestro compromiso es responder con transparencia y responsabilidad.
+                </div>
+            </div>
+            
+            {% comment %} 
+            ************************************************************
+            *** CÓDIGO ACTUALIZADO: USAMOS LAS ETIQUETAS DE DJANGO ***
+            ************************************************************ {% endcomment %}
+
+            {# Mostrar errores generales del formulario (si existen) #}
+            {% if form.non_field_errors %}
+                <div class="col-12">
+                    <div class="alert alert-danger" role="alert">
+                        {{ form.non_field_errors }}
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="col-12">
+                <label for="{{ form.nombre.id_for_label }}" class="form-label">Nombre Completo</label>
+                {{ form.nombre }}
+                {# Añadir la clase 'form-control' manualmente al widget #}
+                <script>document.getElementById('{{ form.nombre.id_for_label }}').classList.add('form-control');</script>
+                {{ form.nombre.errors }}
+            </div>
+            
+            <div class="col-md-6">
+                <label for="{{ form.email.id_for_label }}" class="form-label">Correo Electrónico</label>
+                {{ form.email }}
+                <script>document.getElementById('{{ form.email.id_for_label }}').classList.add('form-control');</script>
+                {{ form.email.errors }}
+            </div>
+            
+            <div class="col-md-6">
+                <label for="{{ form.telefono.id_for_label }}" class="form-label">Teléfono</label>
+                {{ form.telefono }}
+                <script>document.getElementById('{{ form.telefono.id_for_label }}').classList.add('form-control');</script>
+                {{ form.telefono.errors }}
+            </div>
+            
+            <div class="col-12">
+                <label for="{{ form.mensaje.id_for_label }}" class="form-label">Mensaje o Consulta (Situación del Adulto Mayor)</label>
+                {{ form.mensaje }}
+                <script>
+                    document.getElementById('{{ form.mensaje.id_for_label }}').classList.add('form-control');
+                    document.getElementById('{{ form.mensaje.id_for_label }}').setAttribute('rows', '5');
+                    document.getElementById('{{ form.mensaje.id_for_label }}').setAttribute('placeholder', 'Cuéntanos brevemente sobre la situación, el estado de dependencia y las necesidades principales de tu familiar.');
+                </script>
+                {{ form.mensaje.errors }}
+            </div>
+            
+            <div class="col-12 text-center mt-5">
+                <button type="submit" class="btn btn-primary btn-lg fw-bold px-5 py-3 shadow-lg">
+                    Enviar Solicitud <i class="fa-solid fa-paper-plane ms-2"></i>
+                </button>
+            </div>
+            
+            {# 💥 CAMBIO: Se mantiene el manejo de mensajes de Django para éxito o error de envío #}
+            {% if messages %}
+                <div class="col-12 mt-4">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+        </form>
+    </section>
+</main>
+
+<div class="contact-info container-fluid">
+    <div class="container d-flex flex-wrap justify-content-around align-items-center fw-semibold text-center">
+        <div class="p-2"><i class="fa-solid fa-phone"></i> <a href="tel:+56992280344">+56 9 9228 0344</a></div>
+        <div class="p-2 d-none d-sm-block"><i class="fa-solid fa-map-marker-alt"></i> Centenario 469, Maipú</div>
+        <div class="p-2 d-none d-md-block"><i class="fa-solid fa-envelope"></i> <a href="mailto:contacto@casadereposomihogar.cl">contacto@casadereposomihogar.cl</a></div>
+        <div class="p-2"><i class="fa-solid fa-clock"></i> Visitas: 9:00–20:00</div>
+    </div>
+</div>
+
+<footer>
+    <div class="container text-center py-4">
+        <p class="mb-1">© 2025 Casa de Reposo “Mi Hogar” - Todos los derechos reservados</p>
+        <div class="social-icons mt-3">
+            <a href="https://wa.me/56992280344" target="_blank" title="WhatsApp"><i class="fa-brands fa-whatsapp fa-lg"></i></a>
+            <a href="#" class="mx-3"><i class="fa-brands fa-facebook-f fa-lg"></i></a>
+            <a href="#" class="mx-3"><i class="fa-brands fa-instagram fa-lg"></i></a>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Script simple para asegurar que los campos de Django tengan la clase de Bootstrap
+    // Nota: Es mejor usar un widget de Django o django-widget-tweaks, pero esto funciona.
+    document.addEventListener('DOMContentLoaded', function() {
+        const formElements = [
+            '{{ form.nombre.id_for_label }}',
+            '{{ form.email.id_for_label }}',
+            '{{ form.telefono.id_for_label }}',
+            '{{ form.mensaje.id_for_label }}'
+        ];
+        formElements.forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.classList.add('form-control');
+                if (element.tagName === 'TEXTAREA') {
+                    element.setAttribute('rows', '5');
+                    element.setAttribute('placeholder', 'Cuéntanos brevemente sobre la situación, el estado de dependencia y las necesidades principales de tu familiar.');
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>

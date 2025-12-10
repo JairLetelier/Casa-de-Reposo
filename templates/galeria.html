@@ -1,0 +1,377 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Galería - Casa de Reposo “Mi Hogar”</title>
+    <meta name="description" content="Galería de fotos de Casa de Reposo “Mi Hogar” en Maipú. Explore nuestras habitaciones, áreas comunes y el entorno seguro y cálido que promueve la paz, cariño y compañía del adulto mayor."/>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Variables unificadas */
+        :root {
+            --primary-blue: #1C5485; /* Azul principal más profundo */
+            --primary-light: #2A6F97; /* Azul secundario para efectos */
+            --secondary-text: #495057; 
+            --light-bg: #f8f9fa; /* Fondo más claro */
+            --off-white: #ffffff;
+            --text-dark: #212529; 
+            --radius: 12px;
+            --shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 8px 25px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 15px 40px rgba(0, 0, 0, 0.12);
+            --success-color: #28a745; /* Verde WhatsApp */
+            --info-color: #17a2b8; /* Azul claro para detalles modales */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding-top: 75px; 
+        }
+
+        h1, h2, h3, h4 { font-weight: 700; color: var(--primary-blue); }
+        h1, h2.section-title { color: var(--text-dark); }
+        a { text-decoration: none; }
+
+        /* Navbar (Unificado) */
+        .navbar { background-color: var(--off-white); box-shadow: var(--shadow-sm); padding: 0.8rem 0; }
+        .navbar-brand { font-weight: 800 !important; color: var(--primary-blue) !important; font-size: 1.7rem; }
+        .nav-link { color: var(--secondary-text) !important; font-weight: 600; transition: all 0.3s ease; border-bottom: 2px solid transparent; }
+        .nav-link:hover, .nav-link.active { color: var(--primary-blue) !important; border-bottom-color: var(--primary-light); }
+
+        /* Botones (Unificado) */
+        .btn-primary { 
+            background-color: var(--primary-blue); 
+            border-color: var(--primary-blue); 
+            border-radius: 6px; 
+            font-weight: 600; 
+            transition: all 0.3s ease; 
+            box-shadow: var(--shadow-sm); 
+            padding: 0.75rem 2rem; 
+            text-transform: uppercase; 
+            letter-spacing: 0.5px;
+        }
+        .btn-primary:hover { 
+            background-color: #1a4970; 
+            border-color: #1a4970; 
+            transform: translateY(-1px); 
+            box-shadow: var(--shadow-md); 
+        }
+        .btn-outline-primary {
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s ease; 
+        }
+        .btn-outline-primary:hover {
+            background-color: var(--primary-blue);
+            color: var(--off-white);
+            transform: translateY(-1px);
+        }
+
+        /* Estilos de Sección (Unificado) */
+        section { padding: 5rem 0; }
+        .section-title { 
+            font-size: 2.6rem; 
+            position: relative; 
+            display: inline-block; 
+            margin-bottom: 3.5rem; 
+        }
+        .section-title::after { 
+            content: ''; 
+            display: block; 
+            width: 60px; 
+            height: 5px; 
+            background: var(--primary-light); 
+            margin: 15px auto 0; 
+            border-radius: 3px; 
+        }
+
+        /* Estilos específicos para Galería General */
+        .galeria-img {
+            aspect-ratio: 16/10;
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            border-radius: var(--radius) !important; 
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .galeria-img:hover {
+            transform: scale(1.02); /* Suavizado el zoom */
+            box-shadow: var(--shadow-lg);
+        }
+        
+        /* Estilos para Tarjetas de Habitaciones */
+        .room-card {
+            background: var(--off-white);
+            border: 1px solid #e9ecef;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.4s ease-in-out; /* Animación más notoria */
+        }
+        .room-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-6px); /* Pequeño levante */
+        }
+        .room-card img {
+            border-top-left-radius: var(--radius);
+            border-top-right-radius: var(--radius);
+            height: 250px;
+            object-fit: cover;
+            width: 100%;
+        }
+        .room-card h4 {
+            color: var(--primary-blue); /* Título de la habitación con color principal */
+        }
+        .room-card .text-success {
+            color: var(--primary-light) !important; /* Usar el color del proyecto para los checks */
+        }
+        .room-card .text-end {
+             color: var(--primary-light) !important; 
+        }
+
+        /* Estilos para la barra de contacto superior al footer */
+        .contact-info {
+            background-color: var(--off-white) !important;
+            border-top: 2px solid var(--light-bg) !important;
+            border-bottom: 2px solid var(--light-bg) !important;
+            box-shadow: var(--shadow-sm);
+            padding: 1.5rem 0;
+        }
+        .contact-info div { font-size: 1.05rem; color: var(--secondary-text); }
+        .contact-info i { 
+            color: var(--primary-blue); /* Color principal para iconos */
+            margin-right: 8px; 
+            transition: all 0.3s ease; 
+        }
+        .contact-info div:hover i { 
+            transform: scale(1.1);
+            color: var(--primary-light);
+        }
+        .contact-info a { 
+            color: var(--secondary-text); 
+            text-decoration: none; 
+            transition: color 0.3s ease; 
+        }
+        .contact-info a:hover { color: var(--primary-light); }
+
+        /* Footer (Unificado) */
+        footer { 
+            background-color: var(--text-dark); 
+            color: #c0c0c0; 
+            padding: 4rem 0 2rem 0; 
+            font-size: 0.9rem; 
+        }
+        footer a { color: var(--off-white); }
+        .social-icons a i { color: #c0c0c0; margin: 0 10px; }
+        .social-icons a:hover i { color: var(--primary-light); transform: scale(1.1); }
+        
+        /* Modal Customization */
+        .modal-body .text-info {
+            color: var(--info-color) !important;
+        }
+
+
+        @media (max-width: 768px) {
+            .section-title { font-size: 2rem; }
+            .navbar-brand { font-size: 1.5rem; }
+            .contact-info .d-none.d-sm-block,
+            .contact-info .d-none.d-md-block {
+                display: none !important; 
+            }
+            .contact-info .d-flex {
+                justify-content: center !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'index' %}">
+            <i class="fa-solid fa-house-chimney-medical me-2" style="color: var(--primary-blue);"></i>
+            Mi Hogar
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'nosotros' %}">Nosotros</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'servicios' %}">Servicios</a></li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'galeria' %}">Galería</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'contacto' %}">Contacto</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'tarifas' %}">Tarifas</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<main class="container mt-5 mb-5">
+    <section class="py-5 text-center">
+        <h1 class="section-title">Nuestra Casa: Paz, Cariño y Seguridad</h1>
+        <p class="lead text-secondary mt-3 mx-auto" style="max-width: 800px;">
+            Recorre nuestros espacios diseñados para el confort, la seguridad y el bienestar físico y emocional de cada residente. Haz clic para ampliar.
+        </p>
+
+        {% if featured_gallery_urls %}
+        <div class="row g-4 mt-5">
+            {% for image_url in featured_gallery_urls %}
+            <div class="col-lg-4 col-md-6">
+                <img src="{{ image_url }}" 
+                    class="galeria-img rounded shadow-sm" 
+                    alt="Instalación destacada de Casa de Reposo Mi Hogar"
+                    data-bs-toggle="modal" data-bs-target="#genericImageModal" />
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        <hr class="my-5 border-secondary opacity-25"> 
+
+        <h2 class="section-title mt-5" style="font-size: 2.2rem;">Opciones de Alojamiento y Confort</h2>
+        <p class="lead text-secondary mb-5 mx-auto" style="max-width: 800px;">
+            Promovemos la autonomía y dignidad en habitaciones cómodas y equipadas. Conoce los tipos disponibles.
+        </p>
+
+        <div class="row g-4 justify-content-center">
+            {% for room in room_types %}
+            <div class="col-lg-4 col-md-6">
+                <div class="room-card text-start">
+                    <img src="{{ room.main_image.url }}" class="img-fluid" alt="Habitación: {{ room.name }}" />
+                    <div class="p-4">
+                        <h4 class="fw-bold">{{ room.name }}</h4>
+                        <p class="text-secondary small">{{ room.description|truncatechars:100 }}</p>
+                        
+                        <ul class="list-unstyled text-start small">
+                            {# SOLUCIÓN 1: Uso de .splitlines para iterar sobre los detalles separados por saltos de línea #}
+                            {% for detail in room.details.splitlines|slice:":3" %}
+                                <li><i class="fa-solid fa-check me-2 text-success"></i> {{ detail }}</li>
+                            {% endfor %}
+                            {# Fin Solución 1 #}
+                            {% if room.details.splitlines|length > 3 %}
+                                <li>... y más detalles.</li>
+                            {% endif %}
+                        </ul>
+
+                        {% if room.price %}
+                        <h5 class="fw-bold mt-3 text-end" style="color: var(--primary-light);">
+                            Desde: ${{ room.price|floatformat:0 }} / mes
+                        </h5>
+                        {% endif %}
+
+                        <button type="button" class="btn btn-outline-primary btn-sm mt-3 w-100" 
+                                data-bs-toggle="modal" data-bs-target="#roomModal{{ room.id }}">
+                            Ver Detalles y Ampliar <i class="fa-solid fa-maximize ms-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p class="col-12 text-secondary">No hay tipos de habitación activos para mostrar. La disponibilidad promueve el cuidado individualizado.</p>
+            {% endfor %}
+        </div>
+        
+        <hr class="my-5 border-secondary opacity-25">
+
+        <h2 class="section-title mt-5" style="font-size: 2.2rem;">Espacios Comunes, Convivencia y Acompañamiento</h2>
+        <p class="lead text-secondary mb-5 mx-auto" style="max-width: 800px;">Nuestro objetivo es transformar el cuidado geriátrico en una etapa de paz, cariño y compañía, fomentando la interacción social.</p>
+
+        <div class="row g-4 mt-5">
+            {% for photo in gallery_photos %}
+            <div class="col-lg-4 col-md-6">
+                <img src="{{ photo.image.url }}" 
+                    class="galeria-img rounded shadow-sm" 
+                    alt="{{ photo.title }} ({{ photo.category }})" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#photoModal{{ photo.id }}" />
+            </div>
+            {% empty %}
+            <p class="col-12 text-secondary">No hay fotos de áreas comunes activas para mostrar. Fomentamos la convivencia y el respeto en nuestros espacios.</p>
+            {% endfor %}
+        </div>
+
+        <div class="mt-5">
+            <a href="{% url 'contacto' %}" class="btn btn-primary btn-lg fw-bold">Agenda tu Visita Guiada <i class="fa-solid fa-arrow-right ms-2"></i></a>
+        </div>
+    </section>
+</main>
+
+{% for room in room_types %}
+<div class="modal fade" id="roomModal{{ room.id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="color: var(--primary-blue);">{{ room.name }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <img src="{{ room.main_image.url }}" class="img-fluid rounded mb-3" alt="{{ room.name }}" />
+                <p class="text-secondary">{{ room.description }}</p>
+                <h6 class="fw-bold mt-4" style="color: var(--primary-blue);">Incluye y Detalles:</h6>
+                <div class="details-list">
+                    {# SOLUCIÓN 2: Uso de .splitlines para iterar sobre los detalles en el modal #}
+                    {% for detail in room.details.splitlines %}
+                    <p class="mb-1 text-secondary"><i class="fa-solid fa-hand-point-right me-2" style="color: var(--info-color);"></i> {{ detail }}</p>
+                    {% endfor %}
+                    {# Fin Solución 2 #}
+                </div>
+                {% if room.price %}
+                <h4 class="fw-bold mt-4 text-end" style="color: var(--success-color);">Precio Base: ${{ room.price|floatformat:0 }} / mes</h4>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% for photo in gallery_photos %}
+<div class="modal fade" id="photoModal{{ photo.id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body p-0">
+                <img src="{{ photo.image.url }}" class="img-fluid rounded" alt="{{ photo.title }}" />
+                <div class="p-3 text-center">
+                    <h5 class="mb-0">{{ photo.title }}</h5>
+                    <small class="text-muted">Categoría: {{ photo.get_category_display }}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+<div class="contact-info container-fluid">
+    <div class="container d-flex flex-wrap justify-content-around align-items-center fw-semibold text-center">
+        <div class="p-2"><i class="fa-solid fa-phone"></i> <a href="tel:+56992280344">+56 9 9228 0344</a></div>
+        <div class="p-2 d-none d-sm-block"><i class="fa-solid fa-map-marker-alt"></i> Centenario 469, Maipú</div>
+        <div class="p-2 d-none d-md-block"><i class="fa-solid fa-envelope"></i> <a href="mailto:contacto@casadereposomihogar.cl">contacto@casadereposomihogar.cl</a></div>
+        <div class="p-2"><i class="fa-solid fa-clock"></i> Visitas: 9:00–20:00</div>
+    </div>
+</div>
+
+<footer>
+    <div class="container text-center py-4">
+        <p class="mb-1">© 2025 Casa de Reposo “Mi Hogar” - Todos los derechos reservados</p>
+        <div class="social-icons mt-3">
+            <a href="https://wa.me/56992280344" target="_blank" title="WhatsApp"><i class="fa-brands fa-whatsapp fa-lg"></i></a>
+            <a href="https://www.facebook.com/share/1DBBHfxXDe/?mibextid=wwXIfr"><i class="fa-brands fa-facebook-f fa-lg"></i></a>
+            <a href="#"><i class="fa-brands fa-instagram fa-lg"></i></a>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

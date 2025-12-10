@@ -1,0 +1,339 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tarifas y Precios - Casa de Reposo “Mi Hogar”</title>
+    <meta name="description" content="Conozca las tarifas y planes de precios de Casa de Reposo “Mi Hogar” en Maipú. Ofrecemos transparencia y una evaluación personalizada para determinar el nivel de cuidado integral y humano requerido."/>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Variables unificadas del proyecto */
+        :root {
+            --primary-blue: #1C5485; /* Azul principal más profundo */
+            --primary-light: #2A6F97; /* Azul secundario para efectos/énfasis */
+            --secondary-text: #495057; 
+            --light-bg: #f8f9fa; /* Fondo más claro */
+            --off-white: #ffffff;
+            --text-dark: #212529; 
+            --radius: 12px;
+            --shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 8px 25px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 15px 40px rgba(0, 0, 0, 0.12);
+            --success-color: #28a745; 
+            --info-color: #17a2b8; 
+            --warning-light: #fff3cd; /* Para notas de advertencia */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg); /* Unificado */
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding-top: 75px; 
+        }
+
+        h1, h4 {
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+        
+        /* Navbar (Unificado) */
+        .navbar { background-color: var(--off-white); box-shadow: var(--shadow-sm); padding: 0.8rem 0; }
+        .navbar-brand { font-weight: 800 !important; color: var(--primary-blue) !important; font-size: 1.7rem; }
+        .nav-link { color: var(--secondary-text) !important; font-weight: 600; transition: all 0.3s ease; border-bottom: 2px solid transparent; }
+        .nav-link:hover, .nav-link.active { color: var(--primary-light) !important; border-bottom-color: var(--primary-light); }
+        
+        /* Título de Sección (Unificado) */
+        .section-title { 
+            font-size: 2.6rem;
+            margin-bottom: 3.5rem;
+            display: inline-block;
+        }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 5px;
+            background-color: var(--primary-light); /* Unificado */
+            margin: 15px auto 0;
+            border-radius: 3px;
+        }
+        
+        /* Botones (Unificado) */
+        .btn-primary {
+            background-color: var(--primary-blue);
+            border-color: var(--primary-blue);
+            padding: 0.85rem 2.2rem;
+            border-radius: 6px; /* Unificado */
+            font-weight: 600;
+            transition: all 0.3s ease; 
+            box-shadow: var(--shadow-sm);
+        }
+        .btn-primary:hover {
+            background-color: #1a4970;
+            border-color: #1a4970;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md); 
+        }
+
+        /* Estilos específicos para Tablas de Precios */
+        .pricing-table {
+            border-radius: var(--radius) !important; /* Unificado */
+        }
+        .pricing-table th, .pricing-table td {
+            padding: 1.5rem;
+            vertical-align: middle;
+            font-size: 1.05rem;
+        }
+        .pricing-table thead th { 
+            background-color: var(--primary-blue); /* Unificado */
+            color: var(--off-white);
+            font-weight: 600;
+        }
+        .pricing-table tbody tr:nth-child(even) {
+            background-color: var(--light-bg);
+        }
+        .price-col {
+            font-weight: 700;
+            color: var(--primary-light); /* Unificado */
+            text-align: center;
+            font-size: 1.15rem;
+        }
+        .note-col {
+            font-size: 0.9rem;
+            color: var(--secondary-text); /* Unificado */
+        }
+
+        /* Estilos para Listas de Servicios */
+        .included i { 
+            color: var(--success-color); /* Iconos verdes para servicios INCLUIDOS */ 
+        }
+        .list-unstyled li {
+            margin-bottom: 10px;
+            font-size: 1.05rem; /* Ajuste ligero */
+            color: var(--secondary-text); /* Unificado */
+        }
+        .list-unstyled li i {
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+        .optional-cost { 
+            color: var(--primary-light); /* Unificado */
+            font-weight: 700; 
+            margin-left: auto; 
+            text-align: end;
+        }
+        .bg-warning-subtle {
+             background-color: var(--warning-light) !important;
+        }
+        .text-danger {
+            color: var(--text-dark) !important; /* Mantenemos el contraste */
+        }
+
+        /* Barra de Contacto Flotante (Unificado) */
+        .contact-info {
+            background-color: var(--off-white) !important;
+            box-shadow: var(--shadow-sm); /* Unificado */
+            padding: 1.5rem 0;
+        }
+        .contact-info i { 
+            color: var(--primary-blue); /* Unificado */
+            margin-right: 8px; 
+            transition: all 0.3s ease;
+        }
+        .contact-info a { 
+            color: var(--secondary-text); /* Unificado */
+            text-decoration: none; 
+            transition: color 0.3s ease;
+        }
+        .contact-info a:hover {
+            color: var(--primary-light);
+        }
+        .contact-info div:hover i { 
+            transform: scale(1.1);
+            color: var(--primary-light);
+        }
+
+        /* Footer (Unificado) */
+        footer {
+            background-color: var(--text-dark);
+            color: #c0c0c0;
+            padding: 4rem 0 2rem 0;
+            font-size: 0.9rem;
+        }
+        footer a { color: var(--off-white); text-decoration: none; transition: color 0.3s ease; } 
+        footer a:hover { color: var(--primary-light); }
+        .social-icons a i { 
+            color: #c0c0c0;
+            transition: all 0.3s ease;
+        }
+        .social-icons a:hover i { 
+            color: var(--primary-light); 
+            transform: scale(1.1); 
+        }
+
+        /* Ajustes para móvil */
+        @media (max-width: 991px) {
+            .navbar-collapse {
+                background-color: var(--off-white);
+                border-radius: var(--radius);
+                padding: 10px 15px;
+                margin-top: 10px;
+                box-shadow: var(--shadow-sm);
+            }
+            .nav-link.active {
+                border-bottom: none !important;
+            }
+            .nav-item:last-child .nav-link {
+                margin-bottom: 0;
+            }
+        }
+        @media (max-width: 768px) {
+            .section-title { font-size: 2rem; }
+            .navbar-brand { font-size: 1.5rem; }
+            .d-none.d-sm-block, .d-none.d-md-table-cell {
+                display: none !important;
+            }
+            .pricing-table th, .pricing-table td {
+                padding: 1rem 0.5rem;
+                font-size: 1rem;
+            }
+            .price-col {
+                font-size: 1.05rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'index' %}">
+            <i class="fa-solid fa-house-chimney-medical me-2" style="color: var(--primary-blue);"></i>
+            Mi Hogar
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'nosotros' %}">Nosotros</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'servicios' %}">Servicios</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'galeria' %}">Galería</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'contacto' %}">Contacto</a></li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'tarifas' %}">Tarifas</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<main class="container mt-5 mb-5">
+    <section class="py-5 text-center">
+        <h1 class="section-title">Tarifas de Estadía y Cuidado Integral</h1>
+        <p class="lead text-secondary mt-3 mx-auto" style="max-width: 800px;">
+            Planes transparentes adaptados al nivel de cuidado y dependencia requerido, garantizando el cuidado integral, humano y respetuoso que es nuestra misión.
+        </p>
+
+        <div class="table-responsive mt-5">
+            <table class="table table-bordered align-middle pricing-table shadow-lg rounded-3 overflow-hidden">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-start">Tipo de Paciente / Dependencia</th>
+                        <th scope="col">Tarifa Semanal (Referencial)</th>
+                        <th scope="col">Tarifa Mensual (Referencial)</th>
+                        <th scope="col" class="d-none d-md-table-cell">Nota</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rate in rate_categories %}
+                    <tr>
+                        <th scope="row" class="text-start">{{ rate.patient_type }}</th>
+                        <td class="price-col">
+                            {% if rate.weekly_rate %}
+                                ${{ rate.weekly_rate|floatformat:0|intcomma }} CLP
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </td>
+                        <td class="price-col">
+                            ${{ rate.monthly_rate|floatformat:0|intcomma }} CLP
+                        </td>
+                        <td class="note-col d-none d-md-table-cell">{{ rate.notes }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center text-secondary py-4">No hay categorías de tarifas activas para mostrar. Nuestro compromiso es brindar transparencia.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="mt-5 p-4 border bg-light text-start rounded-3 shadow-sm">
+            <h4 class="fw-bold" style="color: var(--primary-blue);">Servicios Incluidos en la Tarifa Base:</h4> 
+            <ul class="list-unstyled row g-2">
+                {% for service in included_services %}
+                <li class="col-md-6 included"><i class="fa-solid fa-circle-check me-2"></i> {{ service.name }}</li>
+                {% empty %}
+                <li class="col-12 text-muted"><i class="fa-solid fa-triangle-exclamation"></i> No hay servicios incluidos activos.</li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <div class="mt-4 p-4 border bg-warning-subtle text-start rounded-3 shadow-sm">
+            <h4 class="fw-bold text-dark">Nota Aclaratoria Importante:</h4>
+            <p class="mb-0 text-dark">Los precios son referenciales y están sujetos a una evaluación personalizada del residente (determinando el grado de dependencia y los cuidados específicos). Esto asegura un plan que cumple con nuestra misión de cuidado integral y cálido, mejorando la calidad de vida. Por favor, contáctanos para una cotización formal y transparente.</p>
+        </div>
+        
+        <h4 class="mt-5 fw-bold" style="color: var(--text-dark);">Costos de Servicios Opcionales (Anexo)</h4>
+        <div class="row justify-content-center" style="max-width: 800px; margin: 0 auto;">
+            <ul class="list-unstyled col-12 g-2">
+                {% for optional in optional_services %}
+                <li class="d-flex justify-content-between align-items-center border-bottom py-3">
+                    <div class="text-start">
+                        <i class="fa-solid fa-circle-plus me-2" style="color: var(--primary-light);"></i> 
+                        {{ optional.name }}
+                    </div>
+                    <span class="optional-cost">{{ optional.cost }}</span>
+                </li>
+                {% empty %}
+                <li class="text-secondary py-2"><i class="fa-solid fa-triangle-exclamation"></i> No hay servicios opcionales activos.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="mt-5">
+            <a href="{% url 'contacto' %}" class="btn btn-primary btn-lg fw-bold">Solicitar Evaluación y Cotización Personalizada <i class="fa-solid fa-file-invoice-dollar ms-2"></i></a>
+        </div>
+    </section>
+</main>
+
+<div class="contact-info container-fluid">
+    <div class="container d-flex flex-wrap justify-content-around align-items-center fw-semibold text-center">
+        <div class="p-2"><i class="fa-solid fa-phone"></i> <a href="tel:+56992280344">+56 9 9228 0344</a></div>
+        <div class="p-2 d-none d-sm-block"><i class="fa-solid fa-map-marker-alt"></i> Centenario 469, Maipú</div>
+        <div class="p-2 d-none d-md-block"><i class="fa-solid fa-envelope"></i> <a href="mailto:contacto@casadereposomihogar.cl">contacto@casadereposomihogar.cl</a></div>
+        <div class="p-2"><i class="fa-solid fa-clock"></i> Visitas: 9:00–20:00</div>
+    </div>
+</div>
+
+<footer>
+    <div class="container text-center py-4">
+        <p class="mb-1">© 2025 Casa de Reposo “Mi Hogar” - Todos los derechos reservados</p>
+        <div class="social-icons mt-3">
+            <a href="https://wa.me/56992280344" target="_blank" title="WhatsApp"><i class="fa-brands fa-whatsapp fa-lg"></i></a>
+            <a href="https://www.facebook.com/share/1DBBHfxXDe/?mibextid=wwXIfr"><i class="fa-brands fa-facebook-f fa-lg"></i></a>
+            <a href="#"><i class="fa-brands fa-instagram fa-lg"></i></a>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

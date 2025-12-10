@@ -1,0 +1,321 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Servicios - Cuidado Integral 24/7 en Casa de Reposo “Mi Hogar”</title>
+    <meta name="description" content="Descubre los servicios de cuidado integral y respetuoso 24/7 en Casa de Reposo “Mi Hogar” en Maipú. Atención médica, alimentación, acompañamiento gerontológico y cuidados especiales."/>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    
+    <style>
+        /* Variables unificadas */
+        :root {
+            --primary-blue: #1C5485; /* Azul principal más profundo */
+            --primary-light: #2A6F97; /* Azul secundario para efectos */
+            --secondary-text: #495057; 
+            --light-bg: #f8f9fa; /* Fondo más claro */
+            --off-white: #ffffff;
+            --text-dark: #212529; 
+            --radius: 12px;
+            --shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 8px 25px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 15px 40px rgba(0, 0, 0, 0.12);
+            --success-color: #28a745; /* Verde WhatsApp / Check */
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--light-bg); 
+            color: var(--text-dark); 
+            line-height: 1.6; 
+            padding-top: 75px; 
+        }
+        h1, h2, h3, h4 { font-weight: 700; color: var(--primary-blue); }
+        h1, h2.section-title { color: var(--text-dark); }
+        a { text-decoration: none; }
+
+        /* Navbar */
+        .navbar { background-color: var(--off-white); box-shadow: var(--shadow-sm); padding: 0.8rem 0; }
+        .navbar-brand { font-weight: 800 !important; color: var(--primary-blue) !important; font-size: 1.7rem; }
+        .nav-link { color: var(--secondary-text) !important; font-weight: 600; transition: all 0.3s ease; border-bottom: 2px solid transparent; }
+        .nav-link:hover, .nav-link.active { color: var(--primary-blue) !important; border-bottom-color: var(--primary-light); }
+        
+        /* Botones */
+        .btn-primary { background-color: var(--primary-blue); border-color: var(--primary-blue); border-radius: 6px; font-weight: 600; transition: all 0.3s ease; box-shadow: var(--shadow-sm); padding: 0.75rem 2rem; text-transform: uppercase; letter-spacing: 0.5px;}
+        .btn-primary:hover { background-color: #1a4970; border-color: #1a4970; transform: translateY(-1px); box-shadow: var(--shadow-md); }
+
+        /* Estilos de Sección */
+        section { padding: 5rem 0; }
+        .section-title { 
+            font-size: 2.6rem; 
+            position: relative; 
+            display: inline-block; 
+            margin-bottom: 3.5rem; 
+        }
+        .section-title::after { 
+            content: ''; 
+            display: block; 
+            width: 60px; 
+            height: 5px; 
+            background: var(--primary-light); 
+            margin: 15px auto 0; 
+            border-radius: 3px; 
+        }
+
+        /* Tarjetas de Servicios Incluidos */
+        .service-card {
+            border: none;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-md); 
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+            background-color: var(--off-white);
+        }
+        .service-card:hover {
+            transform: translateY(-8px); 
+            box-shadow: var(--shadow-lg); 
+            border-bottom: 5px solid var(--primary-light); 
+        }
+        .service-icon {
+            font-size: 3.5rem; 
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+            background: rgba(28, 84, 133, 0.08); 
+            width: 90px; height: 90px; 
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center; 
+            border-radius: 50%; 
+            transition: 0.4s;
+        }
+        .service-card:hover .service-icon {
+            color: var(--primary-light);
+            transform: scale(1.05) rotate(3deg);
+        }
+        .service-card h4 {
+            font-size: 1.4rem;
+            margin-top: 1rem;
+        }
+
+        /* Servicios Opcionales */
+        .optional-service-section {
+            background-color: var(--off-white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            padding: 4rem;
+            margin-top: 3rem;
+        }
+        .optional-service-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .optional-service-list li {
+            font-size: 1.1rem; 
+            color: var(--secondary-text); 
+            margin-bottom: 1rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px dashed #e9ecef;
+            display: flex;
+            align-items: flex-start;
+        }
+        .optional-service-list li:last-child {
+            border-bottom: none;
+        }
+        .optional-service-list i {
+            color: var(--success-color); 
+            margin-right: 15px;
+            font-size: 1.2rem;
+            padding-top: 2px;
+        }
+        
+        /* Contact Info Strip (Unificado) */
+        .contact-strip { 
+            background: var(--off-white); 
+            border-top: 1px solid #e9ecef; 
+            border-bottom: 1px solid #e9ecef;
+            padding: 1rem 0; 
+            font-weight: 600; 
+        }
+        .contact-strip i { color: var(--primary-blue); margin-right: 8px; }
+        .contact-strip a { color: var(--secondary-text); transition: color 0.3s; }
+        .contact-strip a:hover { color: var(--primary-blue); }
+
+        /* Footer (Unificado) */
+        footer { background-color: var(--text-dark); color: #c0c0c0; padding: 4rem 0 2rem 0; font-size: 0.9rem; }
+        footer a { color: var(--off-white); }
+        .social-icons a i { color: #c0c0c0; }
+        .social-icons a:hover i { color: var(--primary-light); transform: scale(1.1); }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .contact-strip .d-none { display: none !important; }
+        }
+        @media (max-width: 768px) {
+            .section-title { font-size: 2rem; }
+            .service-card { padding: 2rem 1.5rem; }
+            .optional-service-section { padding: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'index' %}">
+            <i class="fa-solid fa-house-chimney-medical me-2" style="color: var(--primary-blue);"></i>
+            Mi Hogar
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'nosotros' %}">Nosotros</a></li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'servicios' %}">Servicios</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'galeria' %}">Galería</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'contacto' %}">Contacto</a></li> 
+                <li class="nav-item"><a class="nav-link" href="{% url 'tarifas' %}">Tarifas</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<main class="container mt-5 mb-5">
+    <section class="py-5 text-center">
+        <h1 class="section-title">Nuestro Cuidado Integral y Humano</h1>
+        <p class="lead text-secondary mt-3 mx-auto" style="max-width: 800px;">
+            Ofrecemos un cuidado integral, humano y respetuoso diseñado para cubrir todas las necesidades físicas, emocionales y sociales de nuestros residentes, promoviendo su dignidad y calidad de vida.
+        </p>
+        
+        <h2 class="section-title my-5" style="font-size: 2.2rem; color: var(--primary-blue);">Áreas de Atención Primaria (Incluidas)</h2>
+        <div class="row g-4 mt-5">
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="card service-card h-100">
+                    <i class="fa-solid fa-user-nurse service-icon"></i>
+                    <h4 class="fw-bold">Acompañamiento Profesional 24/7</h4>
+                    <p class="text-muted">Supervisión constante y atención personalizada por personal técnico y de salud capacitado, asegurando la seguridad y estabilidad del entorno.</p>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="card service-card h-100">
+                    <i class="fa-solid fa-heartbeat service-icon"></i>
+                    <h4 class="fw-bold">Gestión de Salud y Enfermería</h4>
+                    <p class="text-muted">Control diario de signos vitales, seguimiento de patologías crónicas y gestión activa de citas médicas externas para un cuidado proactivo.</p>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="card service-card h-100">
+                    <i class="fa-solid fa-pills service-icon"></i>
+                    <h4 class="fw-bold">Administración de Medicamentos</h4>
+                    <p class="text-muted">Organización (pastilleros), registro estricto y entrega oportuna de toda la medicación indicada, eliminando el riesgo de errores.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="card service-card h-100">
+                    <i class="fa-solid fa-shower service-icon"></i>
+                    <h4 class="fw-bold">Higiene, Aseo y Confort Personal</h4>
+                    <p class="text-muted">Asistencia diaria y con la máxima dignidad en baño, vestuario, arreglo personal y movilización. Promoviendo la autonomía en cada tarea.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="card service-card h-100">
+                    <i class="fa-solid fa-wheelchair service-icon"></i>
+                    <h4 class="fw-bold">Cuidados de Pacientes Dependientes</h4>
+                    <p class="text-muted">Atención a pacientes con cuidados complejos (úlceras, traqueostomías), siempre con profesionalismo, dedicación y respeto.</p>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="card service-card h-100">
+                    <i class="fa-solid fa-bed service-icon"></i>
+                    <h4 class="fw-bold">Estadías Temporales y de Recuperación</h4>
+                    <p class="text-muted">Cuidado temporal intensivo post-operatorio, de convalecencia o para brindar un descanso necesario a la familia. Flexibilidad y apoyo.</p>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title my-5" style="font-size: 2.2rem; color: var(--primary-blue);">Alimentación y Bienestar General</h2>
+        <div class="row g-4 justify-content-center">
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="card service-card h-100">
+                    <i class="fa-solid fa-apple-alt service-icon"></i>
+                    <h4 class="fw-bold">Nutrición y Dieta Adaptada</h4>
+                    <p class="text-muted">4 comidas principales diarias más colaciones. Menús balanceados y adaptados a dietas blandas, diabéticas o de fácil deglución, con ingredientes frescos.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="card service-card h-100">
+                    <i class="fa-solid fa-puzzle-piece service-icon"></i>
+                    <h4 class="fw-bold">Acompañamiento Gerontológico</h4>
+                    <p class="text-muted">Actividades y acompañamiento que fomentan la convivencia, la estimulación cognitiva y el bienestar emocional y social del adulto mayor.</p>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="card service-card h-100">
+                    <i class="fa-solid fa-users service-icon"></i>
+                    <h4 class="fw-bold">Transparencia y Apoyo Familiar</h4>
+                    <p class="text-muted">Acceso a visitas diarias para fomentar el lazo familiar. Compromiso con la transparencia en la comunicación sobre el estado de salud y ánimo del residente.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="optional-service-section text-start mx-auto" style="max-width: 900px;">
+            <h2 class="section-title text-center" style="font-size: 2.2rem; color: var(--success-color);">Servicios Opcionales de Soporte</h2>
+            <p class="lead text-secondary mb-4 text-center">
+                Estos servicios especializados se coordinan y gestionan a solicitud directa de la familia con profesionales externos de confianza (con costo adicional).
+            </p>
+            <div class="row g-4 mt-5">
+                <ul class="optional-service-list row">
+                    <li class="col-md-6"><i class="fa-solid fa-check-circle"></i> Kinesiología y Rehabilitación Física Individualizada.</li>
+                    <li class="col-md-6"><i class="fa-solid fa-check-circle"></i> Terapia Ocupacional y Estimulación Cognitiva</li>
+                    <li class="col-md-6"><i class="fa-solid fa-check-circle"></i> Podología Especializada y Cuidado de Pies</li>
+                    <li class="col-md-6"><i class="fa-solid fa-check-circle"></i> Peluquería, Manicure y Cuidado Estético</li>
+                    <li class="col-md-6"><i class="fa-solid fa-check-circle"></i> Servicio de Lavandería Personal (Ropa Individual).</li>
+                    <li class="col-md-6"><i class="fa-solid fa-check-circle"></i> Consulta Privada con Nutricionista (Plan Dietético).</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="mt-5 pt-4">
+            <a href="{% url 'tarifas' %}" class="btn btn-primary btn-lg fw-bold">Ver Tarifas y Modalidades <i class="fa-solid fa-dollar-sign ms-2"></i></a>
+        </div>
+    </section>
+</main>
+
+<div class="contact-strip container-fluid">
+    <div class="container d-flex flex-wrap justify-content-around align-items-center fw-semibold text-center">
+        <div class="p-2"><i class="fa-solid fa-phone"></i> <a href="tel:+56992280344">+56 9 9228 0344</a></div>
+        <div class="p-2 d-none d-sm-block"><i class="fa-solid fa-map-marker-alt"></i> Centenario 469, Maipú, Santiago</div>
+        <div class="p-2 d-none d-md-block"><i class="fa-solid fa-envelope"></i> <a href="mailto:contacto@casadereposomihogar.cl">contacto@casadereposomihogar.cl</a></div>
+        <div class="p-2"><i class="fa-solid fa-clock"></i> Visitas: 9:00–20:00</div>
+    </div>
+</div>
+
+<footer>
+    <div class="container text-center py-4">
+        <p class="mb-1">© 2025 Casa de Reposo “Mi Hogar” - Todos los derechos reservados</p>
+        <div class="social-icons mt-3">
+            <a href="https://wa.me/56992280344" target="_blank" title="WhatsApp"><i class="fa-brands fa-whatsapp fa-lg"></i></a>
+            <a href="https://www.facebook.com/share/1DBBHfxXDe/?mibextid=wwXIfr"><i class="fa-brands fa-facebook-f fa-lg"></i></a>
+            <a href="#"><i class="fa-brands fa-instagram fa-lg"></i></a>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> Transparencia 

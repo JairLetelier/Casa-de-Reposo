@@ -1,0 +1,424 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Casa de Reposo “Mi Hogar” - Cuidado Integral en Maipú</title>
+    <meta name="description" content="Casa de Reposo “Mi Hogar”: Cuidado integral, humano y respetuoso para adultos mayores en Maipú (Zona Centenario). Nuestra misión es garantizar un entorno seguro y humano donde la dignidad sea prioridad."/>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    
+    <style>
+        /* Variables unificadas con el estilo de 'Nosotros' */
+        :root {
+            --primary-blue: #1C5485; /* Azul principal más profundo */
+            --primary-light: #2A6F97; /* Azul secundario para efectos */
+            --secondary-text: #495057; 
+            --light-bg: #f8f9fa; /* Fondo más claro */
+            --off-white: #ffffff;
+            --text-dark: #212529; 
+            --radius: 12px;
+            --shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 15px 40px rgba(0, 0, 0, 0.12);
+            --success-color: #28a745; /* Verde WhatsApp */
+            --default-hero-image: url('{% static "Hero_Fallback.jpg" %}'); 
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--light-bg); 
+            color: var(--text-dark); 
+            line-height: 1.6; 
+            padding-top: 75px; 
+        }
+        h1, h2, h3, h4 { font-weight: 700; color: var(--primary-blue); }
+        h1, h2.section-title { color: var(--text-dark); }
+        a { text-decoration: none; }
+
+        /* Navbar */
+        .navbar { background-color: var(--off-white); box-shadow: var(--shadow-sm); padding: 0.8rem 0; }
+        .navbar-brand { font-weight: 800 !important; color: var(--primary-blue) !important; font-size: 1.7rem; }
+        .nav-link { color: var(--secondary-text) !important; font-weight: 600; transition: all 0.3s ease; border-bottom: 2px solid transparent; }
+        .nav-link:hover, .nav-link.active { color: var(--primary-blue) !important; border-bottom-color: var(--primary-light); }
+
+        /* Botones */
+        .btn-primary { background-color: var(--primary-blue); border-color: var(--primary-blue); }
+        .btn-primary:hover { background-color: #1a4970; border-color: #1a4970; transform: translateY(-1px); box-shadow: var(--shadow-lg); }
+        .btn-outline-primary { color: var(--primary-blue); border-color: var(--primary-blue); }
+        .btn-outline-primary:hover { background-color: var(--primary-blue); color: #fff; transform: translateY(-1px); box-shadow: var(--shadow-lg); }
+        .btn-success { background-color: var(--success-color); border-color: var(--success-color); }
+        .btn-success:hover { background-color: #1e7e34; border-color: #1e7e34; transform: translateY(-1px); }
+        .btn-primary, .btn-outline-primary, .btn-success { border-radius: 6px; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); padding: 0.75rem 2rem; text-transform: uppercase; letter-spacing: 0.5px;}
+        .btn-light { color: var(--primary-blue) !important; background-color: #fff; border-color: #fff; }
+        .btn-light:hover { background-color: #e9ecef; border-color: #e9ecef; }
+
+
+        /* Carrusel (Hero) */
+        .carousel-item { 
+            height: 600px; /* Reducción de altura */
+            background-size: cover; 
+            background-position: center; 
+            position: relative; 
+        }
+        .carousel-item::before { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.4)); }
+        .carousel-caption { 
+            bottom: 45%; /* Subir el caption */
+            transform: translateY(45%); 
+            background: rgba(255,255,255,0.95); 
+            color: var(--text-dark); 
+            border-radius: var(--radius); 
+            padding: 2.5rem 3rem; 
+            box-shadow: var(--shadow-lg); 
+            max-width: 90%; 
+            margin: 0 auto; 
+            animation: fadeIn 1s ease-out;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(60%); } to { opacity: 1; transform: translateY(45%); } }
+        .carousel-caption h1 { font-size: 3.2rem; line-height: 1.2; }
+        
+        /* General Sections & Titles */
+        section { padding: 5rem 0; }
+        .section-title { 
+            font-size: 2.6rem; 
+            position: relative; 
+            display: inline-block; 
+            margin-bottom: 3.5rem; 
+        }
+        .section-title::after { 
+            content: ''; 
+            display: block; 
+            width: 60px; 
+            height: 5px; 
+            background: var(--primary-light); 
+            margin: 15px auto 0; 
+            border-radius: 3px; 
+        }
+
+        /* Mision/Vision Cards */
+        .mv-card { 
+            border: none; 
+            border-left: 5px solid var(--primary-light); /* Borde de color para destacar */
+            box-shadow: var(--shadow-sm); 
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        .mv-card:hover { border-color: var(--primary-blue); transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+        .mv-card h3 { font-size: 1.6rem; }
+        
+        /* Unified Cards (Promesas/Modalidades) */
+        .card-promise { 
+            border: none; 
+            border-radius: var(--radius); 
+            background: var(--off-white); 
+            transition: 0.3s; 
+            box-shadow: var(--shadow-sm); 
+            padding: 2.5rem;
+        }
+        .card-promise:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+        .card-icon { 
+            font-size: 3.2rem; 
+            color: var(--primary-blue); 
+            margin-bottom: 1.2rem; 
+            background: rgba(28, 84, 133, 0.08); /* Fondo con el color primario oscuro */
+            width: 90px; height: 90px; 
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center; 
+            border-radius: 50%; 
+            transition: 0.3s; 
+        }
+        .card-promise:hover .card-icon { transform: scale(1.05) rotate(-3deg); color: var(--primary-light); }
+        
+        /* Imagenes y texto lateral */
+        .image-side-content img { border-radius: var(--radius); box-shadow: var(--shadow-lg); transition: transform 0.4s ease; }
+        .image-side-content img:hover { transform: scale(1.02); }
+        .image-side-content .list-unstyled i { color: var(--primary-blue); margin-right: 8px; font-size: 1.1rem; }
+
+        /* Testimonials specific */
+        .testimonial-section { background-color: var(--primary-blue); color: #fff; border-radius: var(--radius); }
+        .testimonial-section .section-title::after { background: var(--off-white); }
+        .testimonial-card { 
+            background: rgba(255,255,255,0.1); 
+            border: 1px solid rgba(255,255,255,0.15); 
+            color: #fff; 
+            border-radius: var(--radius);
+            transition: 0.3s;
+        }
+        .testimonial-card:hover { background: rgba(255,255,255,0.2); }
+        .testimonial-card i.fa-quote-left { color: var(--primary-light); }
+        
+        /* Contact & Map */
+        .contact-section { 
+            background: var(--primary-blue); 
+            color: #fff; 
+            border-radius: var(--radius); 
+            padding: 4rem 0; /* Ajuste de padding */
+        }
+        .contact-section .form-control { border-radius: 6px; border: none; padding: 1rem; }
+        .contact-section .btn-light { color: var(--primary-blue) !important; }
+        .contact-section .btn-light:hover { background-color: #e9ecef; }
+        
+        .map-container iframe { 
+            width: 100%; 
+            height: 450px; 
+            border: 5px solid var(--off-white); 
+            border-radius: var(--radius); 
+            box-shadow: var(--shadow-lg); 
+        }
+        
+        /* Info Strip & Footer */
+        .contact-strip { 
+            background: var(--off-white); 
+            border-top: 1px solid #e9ecef; 
+            border-bottom: 1px solid #e9ecef;
+            padding: 1rem 0; 
+            font-weight: 600; 
+        }
+        .contact-strip i { color: var(--primary-blue); margin-right: 8px; }
+        .contact-strip a { color: var(--secondary-text); transition: color 0.3s; }
+        .contact-strip a:hover { color: var(--primary-blue); }
+        
+        footer { background-color: var(--text-dark); color: #c0c0c0; padding: 4rem 0 2rem 0; font-size: 0.9rem; }
+        footer a { color: var(--off-white); }
+        .social-icons a i { color: #c0c0c0; }
+        .social-icons a:hover i { color: var(--primary-light); transform: scale(1.1); }
+
+        @media (max-width: 992px) {
+            .carousel-item { height: 500px; }
+            .carousel-caption { padding: 1.5rem; max-width: 95%; }
+            .carousel-caption h1 { font-size: 2.2rem; }
+            .section-title { font-size: 2.2rem; }
+            .contact-strip .d-none { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'index' %}">
+            <i class="fa-solid fa-house-chimney-medical me-2" style="color: var(--primary-blue);"></i>
+            Casa de Reposo “Mi Hogar”
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'index' or request.path == '/' %}active{% endif %}" 
+                        href="{% url 'index' %}">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'nosotros' %}active{% endif %}" 
+                        href="{% url 'nosotros' %}">Nosotros</a>
+                </li> 
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'servicios' %}active{% endif %}" 
+                        href="{% url 'servicios' %}">Servicios</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'galeria' %}active{% endif %}" 
+                        href="{% url 'galeria' %}">Galería</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'contacto' %}active{% endif %}" 
+                        href="{% url 'contacto' %}">Contacto</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'tarifas' %}active{% endif %}" 
+                        href="{% url 'tarifas' %}">Tarifas</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<header class="container-fluid p-0">
+    <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            {% for item in carousel_images %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}" 
+                style="background-image: url('{{ item.image.url }}');">
+                <div class="carousel-caption"> 
+                    <p class="text-uppercase fw-bold mb-2" style="color: var(--primary-light);">Cuidado Integral, Humano y Respetuoso</p>
+                    <h1 class="fw-bold">{{ item.caption|default:"Un Hogar donde<br>la Dignidad es Prioridad"|safe }}</h1>
+                    <a href="{% url 'contacto' %}" class="btn btn-primary mt-3 me-2">Consulta Hoy</a>
+                    <a href="{% url 'servicios' %}" class="btn btn-outline-primary mt-3">Ver Servicios</a>
+                </div>
+            </div>
+            {% empty %}
+            <div class="carousel-item active" style="background-image: var(--default-hero-image);">
+                <div class="carousel-caption"> 
+                    <p class="text-uppercase fw-bold mb-2" style="color: var(--primary-light);">Cuidado Integral, Humano y Respetuoso</p>
+                    <h1 class="fw-bold">Un Hogar donde<br>la Dignidad es Prioridad</h1>
+                    <a href="{% url 'contacto' %}" class="btn btn-primary mt-3 me-2">Consulta Hoy</a>
+                    <a href="{% url 'servicios' %}" class="btn btn-outline-primary mt-3">Ver Servicios</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if carousel_images|length > 1 %}
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Siguiente</span>
+        </button>
+        {% endif %}
+    </div>
+</header>
+
+<main class="container">
+    
+    <section class="text-center py-5 bg-white shadow-sm rounded-3 my-5">
+        <h2 class="section-title">Nuestra Esencia y Compromiso</h2>
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-6">
+                <div class="card mv-card h-100 p-4 text-start">
+                    <h3 class="text-primary-blue"><i class="fa-solid fa-bullseye me-2"></i> Misión</h3>
+                    <p class="text-muted">Entregar un cuidado integral y cálido, garantizando un entorno seguro, estable y humano donde la dignidad sea la prioridad. Comprometidos con la transparencia y responsabilidad hacia las familias, mejorando la calidad de vida de cada residente.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card mv-card h-100 p-4 text-start">
+                    <h3 class="text-primary-blue"><i class="fa-solid fa-binoculars me-2"></i> Visión</h3>
+                    <p class="text-muted">Consolidarnos como una de las casas de reposo más confiables, humanas y reconocidas por su excelencia en la región. Buscamos transformar la vejez en una etapa de paz, cariño, seguridad y verdadera compañía, manteniendo la calidad humana en el centro de nuestro trabajo.</p>
+                </div>
+            </div>
+        </div>
+        <p class="lead mt-5 text-dark opacity-75 mx-auto" style="max-width: 800px;">
+            Somos un hogar dedicado al cuidado integral, humano y respetuoso de las personas mayores, enfocándonos en su bienestar físico, emocional y social.
+        </p>
+        <a href="{% url 'nosotros' %}" class="btn btn-outline-primary btn-lg mt-4">Conoce Nuestros Valores <i class="fa-solid fa-arrow-right ms-2"></i></a>
+    </section>
+    
+    <section class="text-center py-5">
+        <h2 class="section-title">Pilares de Nuestra Promesa</h2>
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-4">
+                <div class="card card-promise h-100 text-center">
+                    <div><i class="fa-solid fa-user-nurse card-icon"></i></div>
+                    <h4 class="mt-3">Atención Médica 24/7</h4>
+                    <p class="text-muted">Supervisión constante y personal de salud certificado disponible en todo momento, garantizando tranquilidad.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-promise h-100 text-center">
+                    <div> <i class="fa-solid fa-users card-icon"> </i> </div> 
+                    <h4 class="mt-3">Calidez Familiar</h4>
+                    <p class="text-muted">Creamos un entorno que estimula el bienestar emocional, la convivencia y una vida social activa, como en casa.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-promise h-100 text-center">
+                    <div><i class="fa-solid fa-shield-alt card-icon"></i></div>
+                    <h4 class="mt-3">Instalaciones Seguras</h4>
+                    <p class="text-muted">Adaptadas a las necesidades del adulto mayor, con protocolos rigurosos y asistencia permanente para prevenir accidentes.</p>
+                </div>
+            </div>
+        </div>
+        <a href="{% url 'servicios' %}" class="btn btn-primary btn-lg mt-5">Ver Todos los Servicios <i class="fa-solid fa-arrow-right ms-2"></i></a>
+    </section>
+
+    <section class="row align-items-center py-5 image-side-content">
+        <div class="col-lg-6 order-lg-2 mb-4">
+            <img src="{% static 'Cuidado.jpg' %}" class="img-fluid w-100" alt="Atención Personalizada y Cuidado en Casa de Reposo" />
+        </div>
+        <div class="col-lg-6 order-lg-1 text-start">
+            <h2 class="section-title text-start">Cuidado Integral Personalizado</h2>
+            <p class="lead text-muted">Reconocemos la singularidad de cada residente. Por ello, desarrollamos planes de cuidado individualizados que abarcan desde el soporte médico y nutricional hasta el estímulo emocional y cognitivo.</p>
+            <ul class="list-unstyled mt-4 text-secondary">
+                <li><i class="fa-solid fa-check-circle"></i> Control de medicación y asistencia profesional.</li>
+                <li><i class="fa-solid fa-check-circle"></i> Rehabilitación física y programas de estimulación cognitiva.</li>
+                <li><i class="fa-solid fa-check-circle"></i> Dietas especializadas, supervisadas por nutricionista.</li>
+                <li><i class="fa-solid fa-check-circle"></i> Acompañamiento en actividades de la vida diaria.</li>
+            </ul>
+            <a href="{% url 'servicios' %}" class="btn btn-outline-primary btn-lg mt-4">Explora nuestros Planes de Cuidado <i class="fa-solid fa-arrow-right-long ms-2"></i></a>
+        </div>
+    </section>
+
+    <section class="testimonial-section py-5 my-5 shadow">
+        <div class="container text-center">
+            <h2 class="section-title text-white">Nuestras Familias Opinan</h2>
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-6">
+                    <div class="card testimonial-card h-100 p-4">
+                        <i class="fa-solid fa-quote-left fa-2x mb-3"></i>
+                        <p class="lead fw-light">"La calidad humana del equipo es insuperable. Mi madre se siente cuidada y feliz. Un ambiente que realmente parece un hogar, con total transparencia."</p>
+                        <p class="fw-bold mt-3 text-uppercase">— Familia Rojas, Maipú</p>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card testimonial-card h-100 p-4">
+                        <i class="fa-solid fa-quote-left fa-2x mb-3"></i>
+                        <p class="lead fw-light">"Necesitamos un cuidado temporal y el personal fue increíblemente profesional. Las instalaciones son modernas y muy limpias. Los recomiendo 100%."</p>
+                        <p class="fw-bold mt-3 text-uppercase">— Sofía M., Dueña</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="conversemos" class="contact-section py-5 my-5 shadow">
+        <div class="text-center text-white">
+            <h2 class="section-title text-white">Conversemos - Contáctanos Directo</h2>
+            <p class="lead opacity-75 mb-5">
+                Estamos ubicados en Maipú, Zona Centenario. Juan Enrique Gómez Leviñanco, dueño, está disponible para responder tus dudas.
+            </p>
+            
+            <div class="d-grid gap-3 col-md-6 mx-auto">
+                <a href="https://wa.me/56992280344" target="_blank" class="btn btn-success fw-bold px-5 py-3 shadow">
+                    <i class="fa-brands fa-whatsapp fa-xl me-2"></i> Habla con Juan Enrique (Dueño)
+                </a>
+                
+                <a href="{% url 'formulario_contacto' %}" class="btn btn-light fw-bold px-5 py-3">
+                    Llenar Formulario <i class="fa-solid fa-envelope-open-text ms-2"></i>
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="py-5">
+        <h2 class="section-title text-center">📍 Visítanos en Maipú, Zona Centenario</h2>
+        <div class="map-container mt-4">
+            <iframe src="https://maps.google.com/maps?q=Centenario%20469,%20Maip%C3%BA,%20Regi%C3%B3n%20Metropolitana&t=&z=16&ie=UTF8&iwloc=B&output=embed" 
+                    allowfullscreen 
+                    loading="lazy">
+            </iframe>
+        </div>
+        <div class="text-center mt-5">
+            <a href="https://www.google.com/maps/place/Centenario+469,+Maip%C3%BA" target="_blank" class="btn btn-outline-primary btn-lg">Abrir en Google Maps <i class="fa-solid fa-location-dot ms-2"></i></a>
+        </div>
+    </section>
+
+</main>
+
+<div class="contact-strip container-fluid text-center">
+    <div class="container d-flex flex-wrap justify-content-around">
+        <div class="p-2"><i class="fa-solid fa-phone"></i> <a href="tel:+56992280344">+56 9 9228 0344</a></div>
+        <div class="p-2 d-none d-sm-block"><i class="fa-solid fa-map-marker-alt"></i> Centenario 469, Maipú, Santiago</div>
+        <div class="p-2 d-none d-md-block"><i class="fa-solid fa-envelope"></i> <a href="mailto:contacto@casadereposomihogar.cl">contacto@casadereposomihogar.cl</a></div>
+        <div class="p-2"><i class="fa-solid fa-clock"></i> Visitas: 9:00–20:00</div>
+    </div>
+</div>
+
+<footer>
+    <div class="container text-center">
+        <p class="mb-3">© 2025 Casa de Reposo “Mi Hogar” - Todos los derechos reservados</p>
+        <div class="social-icons">
+            <a href="https://www.facebook.com/share/1DBBHfxXDe/?mibextid=wwXIfr" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://wa.me/56992280344" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+"""
+Django settings for Global project.
+"""
+
+from pathlib import Path
+import os
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+TEMPLATES_DIR = os.path.join(BASE_DIR,'templates')
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+
+HANDLER_404 = 'gestion_web.views.handler404'
+
+# Quick-start development settings - unsuitable for production
+SECRET_KEY = 'django-insecure-(l3i5ump83@7+y4me7p-6zi35ly8h6%w%$ze##!!+%$4nf)+^@'
+DEBUG = True
+ALLOWED_HOSTS = []
+
+
+# Application definition
+
+INSTALLED_APPS = [
+    # 🎨 AGREGADO PARA EL TEMA VISUAL DEL ADMIN (DEBE SER LA PRIMERA APP)
+    'jazzmin', 
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'django.contrib.humanize',
+    'CasaReposo'
+]
+
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+ROOT_URLCONF = 'Global.urls'
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [TEMPLATES_DIR],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+WSGI_APPLICATION = 'Global.wsgi.application'
+
+
+# Database
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'django_casaReposo',
+        'USER': 'root',
+        'PASSWORD': '123456'
+    }
+}
+
+
+# Password validation
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]
+
+
+# Internationalization
+LANGUAGE_CODE = 'es-cl' # Español de Chile
+TIME_ZONE = 'America/Santiago' # Zona horaria de Santiago
+
+USE_I18N = True
+USE_TZ = True
+
+
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = 'static/'
+STATICFILES_DIRS = [STATIC_DIR]
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# ----------------------------------------------------------------------
+# 📧 CONFIGURACIÓN DE CORREO ELECTRÓNICO (SMTP) 📧
+# ----------------------------------------------------------------------
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com' 
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True 
+EMAIL_HOST_USER = 'jairletelier23@gmail.com' 
+EMAIL_HOST_PASSWORD = 'ufbq plwa nzvi drsm' 
+DEFAULT_FROM_EMAIL = 'Casa de Reposo Mi Hogar <tu_correo_de_envio@ejemplo.com>'
+
+# ----------------------------------------------------------------------
+# 🔑 CONFIGURACIÓN DE REDIRECCIÓN DE AUTENTICACIÓN 🔑
+# ----------------------------------------------------------------------
+LOGOUT_REDIRECT_URL = '/login/' 
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build')
+# ----------------------------------------------------
+# 🎨 CONFIGURACIÓN DE JAZZMIN (TEMA DE ADMIN) 🎨
+# ----------------------------------------------------
+JAZZMIN_SETTINGS = {
+    # Título que aparece en la barra de navegación superior (Usando el nombre guardado)
+    "site_title": "CR Mi Hogar Admin", 
+    
+    # Título que aparece en la pestaña del navegador
+    "site_header": "Casa de Reposo “Mi Hogar”",
+
+    # Logo del sitio (opcional, si lo deseas)
+    # "site_logo": "images/logo.png", 
+    
+    # URL de la página principal
+    "site_url": "/", 
+
+    # Configuración de UI/UX
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "navbar_fixed": True,
+    "sidebar_fixed": True,
+    
+    # Temas de interfaz (Opcional: puedes cambiar a 'darkly', 'cosmo', etc.)
+    # Aquí seleccionamos un tema de base oscuro moderno:
+    "theme": "darkly", 
+    "dark_mode_theme": "darkly", 
+    
+    "show_ui_builder": False, # Desactiva el builder para usuarios finales
+}
+# ----------------------------------------------------------------------

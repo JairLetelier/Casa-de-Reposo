@@ -1,0 +1,330 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nosotros - Casa de Reposo “Mi Hogar”</title>
+    <meta name="description" content="Casa de Reposo “Mi Hogar” en Maipú (Zona Centenario) ofrece cuidado integral, humano y respetuoso. Conoce nuestra Misión de garantizar un entorno seguro y nuestra Visión de ser un referente de excelencia y calidez."/>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    
+    <style>
+        :root {
+            /* Colores Ajustados: Tono más profesional y cálido */
+            --primary-blue: #1C5485; /* Azul principal más profundo */
+            --primary-light: #2A6F97; /* Azul secundario para efectos */
+            --secondary-text: #495057; 
+            --light-bg: #f8f9fa; /* Fondo más claro */
+            --off-white: #ffffff;
+            --text-dark: #212529; 
+            --text-muted: #6c757d; 
+            --radius: 12px; /* Radio ligeramente mayor */
+            --shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            line-height: 1.6; /* Ligeramente más compacto */
+            padding-top: 75px; /* Ajuste para navbar */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            color: var(--primary-blue);
+        }
+        h2.section-title, h1 { color: var(--text-dark); } 
+
+        /* Navbar */
+        .navbar { background-color: var(--off-white); box-shadow: var(--shadow-sm); padding: 0.8rem 0; }
+        .navbar-brand { font-weight: 800 !important; color: var(--primary-blue) !important; font-size: 1.7rem; }
+        .nav-link { color: var(--secondary-text) !important; font-weight: 600; transition: all 0.3s ease; border-bottom: 2px solid transparent; }
+        .nav-link:hover, .nav-link.active { color: var(--primary-blue) !important; border-bottom-color: var(--primary-light); }
+
+        /* Botones */
+        .btn-primary, .btn-outline-primary { border-radius: 6px; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); padding: 0.75rem 2rem; text-transform: uppercase; letter-spacing: 0.5px;}
+        .btn-primary { background-color: var(--primary-blue); border-color: var(--primary-blue); }
+        .btn-primary:hover { background-color: #1a4970; border-color: #1a4970; transform: translateY(-1px); box-shadow: var(--shadow-lg); }
+
+        /* Secciones y Títulos */
+        section { padding: 6rem 0; } /* Más espacio */
+        .section-title { font-size: 2.6rem; margin-bottom: 3rem; position: relative; display: inline-block; }
+        .section-title::after { content: ''; display: block; width: 60px; height: 5px; background-color: var(--primary-light); margin: 15px auto 0; border-radius: 3px; }
+        
+        /* Imágenes y Tarjetas */
+        .img-container { overflow: hidden; border-radius: var(--radius); box-shadow: var(--shadow-lg); }
+        .img-container img { transition: transform 0.4s ease; }
+        .img-container:hover img { transform: scale(1.03); }
+
+        .mvv-card { border: none; border-radius: var(--radius); box-shadow: var(--shadow-sm); padding: 3rem 2rem; background-color: var(--off-white); height: 100%; text-align: center; transition: all 0.3s ease; border-bottom: 4px solid var(--primary-light);}
+        .mvv-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); border-color: var(--primary-blue); }
+        .mvv-card i { font-size: 3rem; color: var(--primary-light); margin-bottom: 1rem; transition: all 0.3s ease; }
+        .mvv-card:hover i { color: var(--primary-blue); }
+        .mvv-card h4 { font-weight: 700; margin-bottom: 1rem; color: var(--primary-blue); }
+        .mvv-card p { font-size: 0.95rem; }
+        
+        /* Lista de Principios (Estilo más moderno) */
+        .principle-list li { font-size: 1.05rem; margin-bottom: 1.2rem; display: flex; align-items: flex-start;}
+        .principle-list i { font-size: 1.5rem; color: var(--primary-blue); margin-right: 15px; margin-top: 3px; }
+
+        /* Contacto Strip */
+        .contact-info { background-color: var(--off-white) !important; border-top: 1px solid #e9ecef !important; border-bottom: 1px solid #e9ecef !important; box-shadow: var(--shadow-sm); padding: 1.2rem 0; }
+        .contact-info div { font-size: 0.95rem; color: var(--secondary-text); }
+        .contact-info i { color: var(--primary-blue); margin-right: 8px; }
+        .contact-info a { color: var(--secondary-text); text-decoration: none; transition: color 0.3s ease; }
+        .contact-info a:hover { color: var(--primary-blue); }
+        
+        /* Document Card Styles (NUEVO) */
+        .card.shadow-sm a.btn-outline-secondary {
+            border-color: var(--text-muted);
+            color: var(--secondary-text);
+            transition: all 0.3s ease;
+        }
+        .card.shadow-sm a.btn-outline-secondary:hover {
+            background-color: var(--primary-blue);
+            color: var(--off-white);
+            border-color: var(--primary-blue);
+        }
+        
+        /* Footer */
+        footer { background-color: var(--text-dark); color: #c0c0c0; padding: 4rem 0 2rem 0; font-size: 0.9rem; }
+        footer a { color: var(--off-white); text-decoration: none; transition: color 0.3s ease; } 
+        footer a:hover { color: var(--primary-light); }
+        .social-icons a { margin: 0 10px; font-size: 1.3rem; }
+        .social-icons a i { transition: all 0.3s ease; color: #c0c0c0; }
+        .social-icons a:hover i { transform: scale(1.1); color: var(--primary-light); }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            section { padding: 4rem 0; }
+            .section-title { font-size: 2.2rem; }
+            .mvv-card { margin-bottom: 1.5rem; }
+            .contact-info .d-none.d-sm-block,
+            .contact-info .d-none.d-md-block { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'index' %}">
+            <i class="fa-solid fa-house-chimney-medical me-2" style="color: var(--primary-blue);"></i>
+            Mi Hogar
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'nosotros' %}">Nosotros</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'servicios' %}">Servicios</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'galeria' %}">Galería</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'contacto' %}">Contacto</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'tarifas' %}">Tarifas</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<main>
+    <section class="py-5 bg-white">
+        <div class="container">
+            <div class="text-center">
+                <h1 class="section-title">¿Quiénes somos en Casa de Reposo “Mi Hogar”?</h1>
+                <p class="lead text-muted mt-4 mx-auto" style="max-width: 900px;">
+                    Somos un establecimiento dedicado a la atención, cuidado y acompañamiento de personas adultas mayores en Maipú, Santiago, sector Zona Centenario. Nuestra misión es clara: brindar un cuidado integral, humano y respetuoso, asegurando que cada residente viva su vejez con la máxima dignidad, seguridad y calidez.
+                </p>
+            </div>
+
+            <div class="text-center mt-5">
+                <div class="img-container mx-auto" style="max-width: 750px;">
+                    <img 
+                        src="{% static 'fachada.jpg' %}" 
+                        alt="Instalaciones de Casa de Reposo Mi Hogar en Maipú" 
+                        class="img-fluid w-100"
+                    />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5">
+        <div class="container">
+            <div class="row align-items-center mb-5">
+                <div class="col-lg-6 mb-4 mb-lg-0 order-lg-2">
+                    <div class="img-container">
+                        <img src="{% static 'profecionales.webp' %} " class="img-fluid w-100" alt="Imagen del equipo profesional de Casa de Reposo" />
+                    </div>
+                </div>
+                <div class="col-lg-6 order-lg-1">
+                    <h2 class="fw-bold text-start">🤝 Nuestro Compromiso y Enfoque de Cuidado</h2>
+                    <p class="lead text-secondary">
+                        Nos enfocamos en el bienestar físico, emocional y social de cada residente. Esto va más allá del cuidado clínico; es promover una vida plena donde la autonomía, la convivencia, el respeto y la calidad humana son los pilares de nuestro día a día.
+                    </p>
+                    
+                    <h3 class="mt-5 fw-bold" style="color: var(--text-dark); font-size: 1.5rem;">Principios Fundamentales:</h3>
+                    <ul class="list-unstyled mt-3 principle-list row">
+                        <li class="col-md-6"><i class="fa-solid fa-heart-pulse"></i> Cuidado Integral y continuo.</li>
+                        <li class="col-md-6"><i class="fa-solid fa-hand-holding-heart"></i> Dignidad y Trato Humano respetuoso.</li>
+                        <li class="col-md-6"><i class="fa-solid fa-user-check"></i> Fomento de la Autonomía e independencia.</li>
+                        <li class="col-md-6"><i class="fa-solid fa-users"></i> Compañía, Convivencia y Transparencia.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="text-center py-5 bg-white">
+        <div class="container">
+            <h2 class="section-title" style="font-size: 2.4rem;">💡 Misión, Visión y Valores Institucionales</h2>
+            <p class="text-muted mb-5 mx-auto" style="max-width: 800px;">Estos tres pilares definen nuestro propósito y el camino hacia la excelencia en el cuidado geriátrico.</p>
+            <div class="row g-4 mt-5">
+                
+                <div class="col-md-4">
+                    <div class="mvv-card">
+                        <i class="fa-solid fa-bullseye"></i>
+                        <h4>Misión</h4>
+                        <p class="text-muted">Brindar un cuidado integral y cálido, asegurando un entorno seguro, estable y humano donde la dignidad sea la prioridad, mejorando la calidad de vida y comprometiéndonos con las familias con transparencia y responsabilidad.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="mvv-card">
+                        <i class="fa-solid fa-binoculars"></i>
+                        <h4>Visión</h4>
+                        <p class="text-muted">Consolidarnos como una de las casas de reposo más confiables, humanas y reconocidas por su excelencia en la comuna y la región, buscando transformar el cuidado geriátrico en una etapa de paz, cariño, seguridad y compañía para cada adulto mayor.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="mvv-card">
+                        <i class="fa-solid fa-gem"></i>
+                        <h4>Valores</h4>
+                        <p class="text-muted">La columna vertebral de nuestro trabajo: Dignidad, Respeto, Calidad Humana, Transparencia, Responsabilidad y Convivencia. Guían cada acción de nuestro equipo en el día a día.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="text-center py-5">
+        <div class="container">
+            <h2 class="section-title" style="font-size: 2.4rem;">📜 Documentación Legal y Certificaciones</h2>
+            <p class="text-muted mb-5 mx-auto" style="max-width: 800px;">
+                La Casa de Reposo “Mi Hogar” opera bajo estricto cumplimiento normativo. Puede visualizar nuestros documentos oficiales para garantizar un cuidado seguro.
+            </p>
+
+            <div class="row g-4 mt-5">
+                
+                <div class="col-md-3">
+                    <div class="card shadow-sm border-0 h-100 p-3" style="border-radius: var(--radius);">
+                        <div class="card-body">
+                            <i class="fa-solid fa-file-pdf fa-4x text-danger mb-3"></i> 
+                            <h5 class="card-title fw-bold">Certificado Sanitario</h5>
+                            <p class="card-text text-muted small">Acreditación vigente de la Seremi de Salud.</p>
+                            <a href="/media/documentos/CertificadoSanitario.pdf#toolbar=0" target="_blank" class="btn btn-sm btn-outline-secondary mt-3">
+                                <i class="fas fa-eye me-1"></i> Ver Documento
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <div class="card shadow-sm border-0 h-100 p-3" style="border-radius: var(--radius);">
+                        <div class="card-body">
+                            <i class="fa-solid fa-gavel fa-4x text-primary mb-3" style="color: var(--primary-blue) !important;"></i> 
+                            <h5 class="card-title fw-bold">Certificado de Resolución</h5>
+                            <p class="card-text text-muted small">Documento legal que autoriza el funcionamiento.</p>
+                            <a href="/media/documentos/Certificadoderesolucion.pdf#toolbar=0" target="_blank" class="btn btn-sm btn-outline-secondary mt-3">
+                                <i class="fas fa-eye me-1"></i> Ver Documento
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <div class="card shadow-sm border-0 h-100 p-3" style="border-radius: var(--radius);">
+                        <div class="card-body">
+                            <i class="fa-solid fa-store-alt fa-4x text-success mb-3"></i> 
+                            <h5 class="card-title fw-bold">Patente Comercial</h5>
+                            <p class="card-text text-muted small">Permiso municipal de operación en Maipú.</p>
+                            <a href="/media/documentos/Patentecomercial.pdf#toolbar=0" target="_blank" class="btn btn-sm btn-outline-secondary mt-3">
+                                <i class="fas fa-eye me-1"></i> Ver Documento
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <div class="card shadow-sm border-0 h-100 p-3" style="border-radius: var(--radius);">
+                        <div class="card-body">
+                            <i class="fa-solid fa-certificate fa-4x text-warning mb-3"></i> 
+                            <h5 class="card-title fw-bold">Certificado de Patente</h5>
+                            <p class="card-text text-muted small">Acreditación de la patente comercial vigente.</p>
+                            <a href="/media/documentos/Certificadodepatente.pdf#toolbar=0" target="_blank" class="btn btn-sm btn-outline-secondary mt-3">
+                                <i class="fas fa-eye me-1"></i> Ver Documento
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+    <section class="py-5">
+        <div class="container">
+            <div class="row align-items-center bg-white rounded shadow-sm p-4 p-lg-5">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <h2 class="fw-bold">📍 Ubicación y Contacto Directo</h2>
+                    <p class="lead text-secondary">
+                        Estamos en el corazón de Maipú, en la tranquilidad del sector Zona Centenario, con fácil acceso para las familias.
+                    </p>
+                    <ul class="list-unstyled mt-4 text-secondary">
+                        <li><i class="fa-solid fa-map-marker-alt text-primary-blue me-2"></i> Ubicación: Maipú, Santiago, Zona Centenario.</li>
+                        <li><i class="fa-solid fa-user-tie text-primary-blue me-2"></i> Dueño/Contacto Principal: Juan Enrique Gómez Leviñanco</li>
+                        <li><i class="fa-solid fa-phone text-primary-blue me-2"></i> Teléfono: <a href="tel:+56992280344">+56 9 9228 0344</a></li>
+                    </ul>
+                    <a href="https://wa.me/56992280344" target="_blank" class="btn btn-primary mt-4"><i class="fa-brands fa-whatsapp me-2"></i> Contactar a Juan Enrique (Dueño)</a>
+                </div>
+                <div class="col-lg-6">
+                    <div class="img-container">
+                        <img src="{% static 'Ubicacion2.png' %} " class="img-fluid w-100" alt="Mapa del área de Maipú, Santiago" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<div class="contact-info container-fluid">
+    <div class="container d-flex flex-wrap justify-content-around align-items-center fw-semibold text-center">
+        <div class="p-2"><i class="fa-solid fa-phone"></i> <a href="tel:+56992280344">+56 9 9228 0344</a></div>
+        <div class="p-2 d-none d-sm-block"><i class="fa-solid fa-map-marker-alt"></i> Centenario 469, Maipú, Santiago</div>
+        <div class="p-2 d-none d-md-block"><i class="fa-solid fa-envelope"></i> <a href="mailto:contacto@casadereposomihogar.cl">contacto@casadereposomihogar.cl</a></div>
+        <div class="p-2"><i class="fa-solid fa-clock"></i> Visitas: 9:00–20:00</div>
+    </div>
+</div>
+
+<footer>
+    <div class="container text-center py-4">
+        <p class="mb-1">© 2025 Casa de Reposo “Mi Hogar” - Todos los derechos reservados</p>
+        <div class="social-icons mt-3">
+            <a href="https://wa.me/56992280344" target="_blank" title="WhatsApp"><i class="fa-brands fa-whatsapp fa-lg"></i></a>
+            <a href="https://www.facebook.com/share/1DBBHfxXDe/?mibextid=wwXIfr" title="Facebook"><i class="fa-brands fa-facebook-f fa-lg"></i></a>
+            <a href="#" title="Instagram"><i class="fa-brands fa-instagram fa-lg"></i></a>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
