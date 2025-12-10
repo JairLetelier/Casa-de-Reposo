@@ -5,7 +5,6 @@ Django settings for Global project.
 from pathlib import Path
 import os
 import dj_database_url
-# Importar la configuración de Google Cloud Console (solo para compatibilidad)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -36,7 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'CasaReposo',
-    # ☁️ AGREGADO PARA ALMACENAMIENTO EXTERNO GRATUITO
+    # ☁️ AGREGADO PARA ALMACENAMIENTO EXTERNO (GCS)
     'storages',
 ]
 
@@ -138,22 +137,24 @@ LOGOUT_REDIRECT_URL = '/login/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build')
 
 # ----------------------------------------------------------------------
-# ☁️ CONFIGURACIÓN DE ALMACENAMIENTO MEDIA (DROPBOX) ☁️
+# ☁️ CONFIGURACIÓN DE ALMACENAMIENTO MEDIA (GOOGLE CLOUD STORAGE - GCS) ☁️
 # ----------------------------------------------------------------------
-# Esta configuración es la ÚNICA que funciona sin tarjeta de crédito
-# usando la capa gratuita de Dropbox.
+# Se usa si DEBUG=False (en Render). Requiere la tarjeta de verificación de GCP.
 if not DEBUG:
-    # 1. Almacenamiento por defecto: usa Dropbox
-    DEFAULT_FILE_STORAGE = 'storages.backends.dropbox.DropBoxStorage'
+    # 1. Almacenamiento por defecto: usa Google Cloud Storage
+    DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
     
-    # 2. El token y la ruta se leen de las variables de entorno de Render
-    # Las claves de desarrollador de Dropbox son gratuitas y se obtienen sin tarjeta.
-    DROPBOX_OAUTH2_TOKEN = os.environ.get('DROPBOX_TOKEN') 
-    DROPBOX_ROOT_PATH = os.environ.get('DROPBOX_ROOT_PATH', '/media/')
+    # 2. El nombre de tu Bucket (Contenedor) de GCS
+    GS_BUCKET_NAME = os.environ.get('GS_BUCKET_NAME')
     
-    # 3. La URL de MEDIA se configura a través de Django/Dropbox
-    # (Django genera la URL pública de Dropbox al servir el archivo)
-    DROPBOX_CUSTOM_MEDIA_URL = os.environ.get('DROPBOX_CUSTOM_MEDIA_URL', '')
+    # 3. La clave JSON de la Cuenta de Servicio (¡Leída de la variable de entorno!)
+    # Esto contiene las credenciales de acceso.
+    # El contenido completo del archivo JSON debe ser una variable de entorno.
+    GS_CREDENTIALS_JSON = os.environ.get('GS_CREDENTIALS_JSON')
+
+    # 4. Configuración de la URL para mostrar los archivos
+    # Esto debe coincidir con el dominio de Google Cloud Storage.
+    MEDIA_URL = f'https://storage.googleapis.com/{GS_BUCKET_NAME}/'
     
 # ----------------------------------------------------
 # 🎨 CONFIGURACIÓN DE JAZZMIN (TEMA DE ADMIN) 🎨
