@@ -5,6 +5,7 @@ Django settings for Global project.
 from pathlib import Path
 import os
 import dj_database_url
+import json # ⬅️ IMPORTACIÓN NECESARIA PARA DECODIFICAR JSON
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -147,13 +148,23 @@ if not DEBUG:
     # 2. El nombre de tu Bucket (Contenedor) de GCS
     GS_BUCKET_NAME = os.environ.get('GS_BUCKET_NAME')
     
-    # 3. La clave JSON de la Cuenta de Servicio (¡Leída de la variable de entorno!)
-    # Esto contiene las credenciales de acceso.
-    # El contenido completo del archivo JSON debe ser una variable de entorno.
-    GS_CREDENTIALS_JSON = os.environ.get('GS_CREDENTIALS_JSON')
+    # 3. 💥 SOLUCIÓN CRÍTICA: Decodificación explícita de la clave JSON
+    # Leemos la cadena de texto de la variable de entorno
+    credentials_string = os.environ.get('GS_CREDENTIALS_JSON')
+    
+    # Intentamos convertir la cadena de texto en un objeto JSON (diccionario)
+    if credentials_string:
+        try:
+            GS_CREDENTIALS = json.loads(credentials_string)
+        except json.JSONDecodeError as e:
+            # En caso de error de formato JSON, se desactiva la credencial
+            print("ERROR FATAL de JSON en GS_CREDENTIALS_JSON. Revise los saltos de línea.")
+            GS_CREDENTIALS = None
+    else:
+        GS_CREDENTIALS = None
+
 
     # 4. Configuración de la URL para mostrar los archivos
-    # Esto debe coincidir con el dominio de Google Cloud Storage.
     MEDIA_URL = f'https://storage.googleapis.com/{GS_BUCKET_NAME}/'
     
 # ----------------------------------------------------
