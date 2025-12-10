@@ -4,6 +4,7 @@ Django settings for Global project.
 
 from pathlib import Path
 import os
+import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATES_DIR = os.path.join(BASE_DIR,'templates')
@@ -12,9 +13,12 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')
 HANDLER_404 = 'gestion_web.views.handler404'
 
 # Quick-start development settings - unsuitable for production
-SECRET_KEY = 'django-insecure-(l3i5ump83@7+y4me7p-6zi35ly8h6%w%$ze##!!+%$4nf)+^@'
-DEBUG = True
+SECRET_KEY = os.environ.get('SECRET_KEY', default='your secret key')
+DEBUG = 'RENDER' not in os.environ
 ALLOWED_HOSTS = []
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME' )
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS. append(RENDER_EXTERNAL_HOSTNAME)
 
 
 # Application definition
@@ -34,12 +38,14 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'Global.urls'
@@ -64,12 +70,10 @@ WSGI_APPLICATION = 'Global.wsgi.application'
 
 # Database
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'django_casaReposo',
-        'USER': 'root',
-        'PASSWORD': '123456'
-    }
+    'default': dj_database_url.config(
+        default='sqlite:///db.sqlite3',
+        conn_max_age=600
+    )
 }
 
 
@@ -100,6 +104,11 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = 'static/'
+
+if not DEBUG:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 STATICFILES_DIRS = [STATIC_DIR]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
