@@ -5,6 +5,8 @@ Django settings for Global project.
 from pathlib import Path
 import os
 import dj_database_url
+# Importar la configuración de Google Cloud Console (solo para compatibilidad)
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATES_DIR = os.path.join(BASE_DIR,'templates')
@@ -33,7 +35,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-    'CasaReposo'
+    'CasaReposo',
+    # ☁️ AGREGADO PARA ALMACENAMIENTO EXTERNO GRATUITO
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -45,7 +49,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
 ]
 
 ROOT_URLCONF = 'Global.urls'
@@ -133,6 +136,24 @@ DEFAULT_FROM_EMAIL = 'Casa de Reposo Mi Hogar <tu_correo_de_envio@ejemplo.com>'
 LOGOUT_REDIRECT_URL = '/login/' 
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build')
+
+# ----------------------------------------------------------------------
+# ☁️ CONFIGURACIÓN DE ALMACENAMIENTO MEDIA (DROPBOX) ☁️
+# ----------------------------------------------------------------------
+# Esta configuración es la ÚNICA que funciona sin tarjeta de crédito
+# usando la capa gratuita de Dropbox.
+if not DEBUG:
+    # 1. Almacenamiento por defecto: usa Dropbox
+    DEFAULT_FILE_STORAGE = 'storages.backends.dropbox.DropBoxStorage'
+    
+    # 2. El token y la ruta se leen de las variables de entorno de Render
+    # Las claves de desarrollador de Dropbox son gratuitas y se obtienen sin tarjeta.
+    DROPBOX_OAUTH2_TOKEN = os.environ.get('DROPBOX_TOKEN') 
+    DROPBOX_ROOT_PATH = os.environ.get('DROPBOX_ROOT_PATH', '/media/')
+    
+    # 3. La URL de MEDIA se configura a través de Django/Dropbox
+    # (Django genera la URL pública de Dropbox al servir el archivo)
+    
 # ----------------------------------------------------
 # 🎨 CONFIGURACIÓN DE JAZZMIN (TEMA DE ADMIN) 🎨
 # ----------------------------------------------------
